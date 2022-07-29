@@ -1,4 +1,4 @@
-const Imap = require('imap-mkl');
+import * as Imap from 'node-imap';
 const inspect = require('util').inspect;
 export default class ImapFace {
 
@@ -6,7 +6,7 @@ export default class ImapFace {
      * connect
      */
     public connect() {
-        var imap = new Imap({
+        let imap = new Imap({
             user: 'bugu1986@126.com',
             password: 'UMXTDSXKNLBRSSOB',
             host: 'imap.126.com',

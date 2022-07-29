@@ -74,8 +74,7 @@
 		"webpack-cli": "^4.9.1"
 	},
 	"dependencies": {
-		"imap-mkl": "^1.0.2",
-		"node-imap": "^0.9.6",
+		"node-imap": "github:buhe/node-imap",
 		"util": "^0.12.4"
 	}
 }
