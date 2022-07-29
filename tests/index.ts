@@ -1,13 +1,16 @@
 import * as chai from 'chai';
+import Imap from '../src/sdk/imap';
 
-function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 describe('imap', () => {
-    it('connect', async () => {
+    it('connect', async (done) => {
         console.log('hello');
-        await delay(400);
+        // let imap = new Imap();
+        // imap.connect();
+
+
+        // await delay(40 * 1000);
+        done();
         console.log('end');
     })
 })

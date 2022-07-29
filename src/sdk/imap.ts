@@ -7,11 +7,13 @@ export default class ImapFace {
      */
     public connect() {
         var imap = new Imap({
-            user: 'bugu1986@gmail.com',
-            password: '&pAdkpYt7GNLJ1@Z',
-            host: 'imap.gmail.com',
+            user: 'bugu1986@126.com',
+            password: 'UMXTDSXKNLBRSSOB',
+            host: 'imap.126.com',
             port: 993,
-            tls: true
+            tls: true,
+            tlsOptions: { servername: 'imap.126.com' },
+            debug: console.log,
         });
 
         function openInbox(cb: any) {
