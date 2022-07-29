@@ -48,7 +48,7 @@
 		"pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
-		"utest": "mocha -r ts-node/register 'tests/**/*.ts'"
+		"utest": "mocha --timeout 30000 -r ts-node/register 'tests/**/*.ts'"
 	},
 	"devDependencies": {
 		"@types/assert": "^1.5.6",
@@ -74,6 +74,7 @@
 	},
 	"dependencies": {
 		"imap-mkl": "^1.0.2",
-		"node-imap": "^0.9.6"
+		"node-imap": "^0.9.6",
+		"util": "^0.12.4"
 	}
 }

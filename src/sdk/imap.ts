@@ -1,4 +1,5 @@
 const Imap = require('imap-mkl');
+const inspect = require('util').inspect;
 export default class ImapFace {
 
     /**
@@ -41,11 +42,11 @@ export default class ImapFace {
                             buffer += chunk.toString('utf8');
                         });
                         stream.once('end', function () {
-                            console.log(prefix + 'Parsed header: %s', Imap.parseHeader(buffer));
+                            console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
                         });
                     });
                     msg.once('attributes', function (attrs: any) {
-                        console.log(prefix + 'Attributes: %s', attrs);
+                        console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
                     });
                     msg.once('end', function () {
                         console.log(prefix + 'Finished');
