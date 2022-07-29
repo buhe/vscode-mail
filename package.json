@@ -54,9 +54,9 @@
 		"@types/assert": "^1.5.6",
 		"@types/chai": "^4.3.1",
 		"@types/glob": "^7.2.0",
-		"@types/imap": "^0.8.35",
 		"@types/mocha": "^9.0.0",
 		"@types/node": "14.x",
+		"@types/node-imap": "^0.9.0",
 		"@types/vscode": "^1.69.0",
 		"@typescript-eslint/eslint-plugin": "^5.9.1",
 		"@typescript-eslint/parser": "^5.9.1",
@@ -73,6 +73,7 @@
 		"webpack-cli": "^4.9.1"
 	},
 	"dependencies": {
-		"imap": "^0.8.19"
+		"imap-mkl": "^1.0.2",
+		"node-imap": "^0.9.6"
 	}
 }

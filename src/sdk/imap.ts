@@ -1,5 +1,4 @@
-var Imap = require('imap');
-
+const Imap = require('imap-mkl');
 export default class ImapFace {
 
     /**
@@ -14,7 +13,13 @@ export default class ImapFace {
             tls: true,
             tlsOptions: { servername: 'imap.126.com' },
             debug: console.log,
-        });
+            id: {
+                name: 'myemail',
+                version: '1.0.0',
+                vendor: "myclient",
+                "support-email": 'bugu1986@126.com',
+            },
+        } as any);
 
         function openInbox(cb: any) {
             imap.openBox('INBOX', true, cb);
@@ -63,7 +68,6 @@ export default class ImapFace {
         imap.once('end', function () {
             console.log('Connection ended');
         });
-
         imap.connect();
     }
 }
