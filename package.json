@@ -1,7 +1,7 @@
 {
   "name": "vsc-mail",
 	"displayName": "vsc-mail",
-	"description": "",
+	"description": "VS Code mail client.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.69.0"
@@ -19,7 +19,25 @@
 				"command": "vsc-mail.setupMail",
 				"title": "setup mail"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "vsc-mail",
+					"title": "Mail",
+					"icon": "images/mail.svg"
+
+				}
+			]
+		},
+		"views": {
+			"vsc-mail": [
+				{
+					"id": "test",
+					"name": "test"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run package",
