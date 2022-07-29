@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vsc-mail.setupMail"
+		"onCommand:vsc-mail.setupMail",
+		"onView:mail"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -32,8 +33,8 @@
 		"views": {
 			"vsc-mail": [
 				{
-					"id": "test",
-					"name": "test"
+					"id": "mail",
+					"name": "MailBox"
 				}
 			]
 		}
