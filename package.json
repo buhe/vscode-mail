@@ -18,9 +18,22 @@
 		"commands": [
 			{
 				"command": "vsc-mail.setupMail",
-				"title": "setup mail"
+				"title": "setup mail",
+				"icon": {
+					"light": "images/light/add.svg",
+					"dark": "images/dark/add.svg"
+				}
 			}
 		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "vsc-mail.setupMail",
+					"when": "view == mail",
+					"group": "navigation"
+				}
+			]
+		},
 		"viewsContainers": {
 			"activitybar": [
 				{
