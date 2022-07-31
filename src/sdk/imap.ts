@@ -97,3 +97,9 @@ class ImapFace {
 let imap = new ImapFace();
 
 export default imap;
+
+export enum NodeType {
+    Vendor,
+    Box,
+    Mail,
+}

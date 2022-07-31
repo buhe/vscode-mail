@@ -1,14 +1,15 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import Imap from '../sdk/imap';
+import Imap, {NodeType} from '../sdk/imap';
 
 export class Mail extends vscode.TreeItem {
 
     constructor(
         public readonly label: string,
+        public readonly type: NodeType,
         public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-        public readonly command?: vscode.Command
+        public readonly command?: vscode.Command,
     ) {
         super(label, collapsibleState);
 
@@ -45,14 +46,21 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
     async getChildren(element?: Mail): Promise<Mail[]> {
         vscode.window.showInformationMessage('load tree from vsc-mail!');
         if (element) {
-            let boxes = await this.imap.getBoxesAsync();
-            let mails: Mail[] = [];
-            for (const key in boxes) {
-                mails.push(new Mail(key, vscode.TreeItemCollapsibleState.None));
+            switch (element.type) {
+                case NodeType.Vendor:
+                    let boxes = await this.imap.getBoxesAsync();
+                    let mails: Mail[] = [];
+                    for (const key in boxes) {
+                        mails.push(new Mail(key, NodeType.Box, vscode.TreeItemCollapsibleState.Collapsed));
+                    }
+                    return Promise.resolve(mails);
+                case NodeType.Box:
+                    return Promise.resolve([]);
+                default:
+                    return Promise.resolve([]);
             }
-            return Promise.resolve(mails);
         } else {
-            return Promise.resolve([new Mail('126', vscode.TreeItemCollapsibleState.Collapsed)]);
+            return Promise.resolve([new Mail('126', NodeType.Vendor,vscode.TreeItemCollapsibleState.Collapsed)]);
         }
 
     }
