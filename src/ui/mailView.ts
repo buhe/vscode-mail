@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import Imap, {NodeType} from '../sdk/imap';
+import Imap, {Message, NodeType} from '../sdk/imap';
 
 export class Mail extends vscode.TreeItem {
 
@@ -54,8 +54,11 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
                     }
                     return Promise.resolve(boxNodees);
                 case NodeType.Box:
-                    let mails = await Imap.openMail(element.tooltip as string);
-                    return Promise.resolve([]);
+                    let messages = await Imap.openMail(element.tooltip as string);
+                    let mailNodes = messages.map((msg: Message) => {
+                        return new Mail(msg.subject, NodeType.Mail, vscode.TreeItemCollapsibleState.None);
+                    });
+                    return Promise.resolve(mailNodes);
                 default:
                     return Promise.resolve([]);
             }

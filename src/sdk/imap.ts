@@ -58,10 +58,12 @@ class ImapFace {
             f.on('message', function (msg: any, seqno: any) {
                 console.log('Message #%d', seqno);
                 var prefix = '(#' + seqno + ') ';
+                let subject = '';
                 msg.on('body', function (stream: any, info: any) {
                     if (info.which === 'TEXT')
                         console.log(prefix + 'Body [%s] found, %d total bytes', inspect(info.which), info.size);
                     var buffer = '', count = 0;
+                    
                     stream.on('data', function (chunk: any) {
                         count += chunk.length;
                         buffer += chunk.toString('utf8');
@@ -70,7 +72,8 @@ class ImapFace {
                     });
                     stream.once('end', function () {
                         if (info.which !== 'TEXT')
-                            console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
+                            subject = Imap.parseHeader(buffer).subject[0];
+                            // console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
                         else
                             console.log(prefix + 'Body [%s] Finished', inspect(info.which));
                     });
@@ -80,7 +83,7 @@ class ImapFace {
                 });
                 msg.once('end', function () {
                     console.log(prefix + 'Finished');
-                    mails.push(new Message('name', NodeType.Mail))
+                    mails.push(new Message(subject, NodeType.Mail))
                 });
             });
             f.once('end', () => {
@@ -108,7 +111,7 @@ export class Message {
     /**
      * constructor
      */
-    public constructor(public readonly label: string,
+    public constructor(public readonly subject: string,
         public readonly type: NodeType,) { 
     }
 }
