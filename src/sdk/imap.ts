@@ -1,7 +1,7 @@
 import * as Imap from 'node-imap';
 const bluebird = require('bluebird');
 const inspect = require('util').inspect;
-export default class ImapFace {
+class ImapFace {
     private imap: Imap;
     /**
      * constructor
@@ -26,14 +26,16 @@ export default class ImapFace {
     /**
      * connect
      */
-    public connect(ready: (imap: any) => void): any {
+    public connect(ready?: (imap: any) => void): any {
         let imap = this.imap;
         // function openInbox(cb: any) {
         //     imap.openBox('INBOX', true, cb);
         // }
 
         imap.once('ready', function () {
-            ready(imap);
+            if(ready) {
+                ready(imap);
+            }
             // console.log('ready..............');
             // return Promise.resolve('');
             // imap.getBoxes((e: any, boxes: any) => {
@@ -88,20 +90,10 @@ export default class ImapFace {
         });
         this.imap.connect();
         return imap;
-        // return Promise.resolve('');
     }
 
-    /**
-     * getBoxes
-     */
-    public async getBoxes(nsPrefix: string) : Promise<any>{
-        await this.imap.getBoxes((err: any, boxes: any) => {
-            if(err) {
-                console.log('getBoxes reject' + err);
-                return Promise.reject(err);
-            }
-            console.log('getBoxes resolve');
-            return Promise.resolve(boxes);
-        });
-    }
 }
+
+let imap = new ImapFace();
+
+export default imap;

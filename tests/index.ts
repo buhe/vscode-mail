@@ -15,20 +15,9 @@ describe('imap', () => {
     // })
 
     it('getBoxes',async () => {
-        let imap = new Imap();
-        let map = imap.connect(async (i) => {
-        //    let b = await i.getBoxesAsync();
-        //    console.log(b);
-        });
-        await delay(20 * 1000);
-        let b = await map.getBoxesAsync();
+        let imap = Imap.connect();
+        await delay(10 * 1000);
+        let b = await imap.getBoxesAsync();
         console.log(b);
-        // try{
-        //     let boxes = await imap.getBoxes('/');
-        //     console.log(boxes);
-        // }catch(e: any){
-        //     console.log('catch getBoxes' + e);
-        // }
-        
     })
 })
