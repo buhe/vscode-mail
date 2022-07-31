@@ -1,8 +1,9 @@
 import * as Imap from 'node-imap';
+import * as vscode from 'vscode';
 const bluebird = require('bluebird');
 const inspect = require('util').inspect;
 class ImapFace {
-    private imap: Imap;
+    private imap: any;
     /**
      * constructor
      */
@@ -28,57 +29,10 @@ class ImapFace {
      */
     public connect(ready?: (imap: any) => void): any {
         let imap = this.imap;
-        // function openInbox(cb: any) {
-        //     imap.openBox('INBOX', true, cb);
-        // }
-
         imap.once('ready', function () {
             if(ready) {
                 ready(imap);
             }
-            // console.log('ready..............');
-            // return Promise.resolve('');
-            // imap.getBoxes((e: any, boxes: any) => {
-            //     console.log(boxes);
-            // });
-            // openInbox(function (err: any, box: any) {
-            //     if (err) throw err;
-            //     var f = imap.seq.fetch(box.messages.total + ':*', { bodies: ['HEADER.FIELDS (FROM SUBJECT DATE)', 'TEXT'] });
-            //     f.on('message', function (msg, seqno) {
-            //         console.log('Message #%d', seqno);
-            //         var prefix = '(#' + seqno + ') ';
-            //         msg.on('body', function (stream, info) {
-            //             if (info.which === 'TEXT')
-            //                 console.log(prefix + 'Body [%s] found, %d total bytes', inspect(info.which), info.size);
-            //             var buffer = '', count = 0;
-            //             stream.on('data', function (chunk) {
-            //                 count += chunk.length;
-            //                 buffer += chunk.toString('utf8');
-            //                 if (info.which === 'TEXT')
-            //                     console.log(prefix + 'Body [%s] (%d/%d)', inspect(info.which), count, info.size);
-            //             });
-            //             stream.once('end', function () {
-            //                 if (info.which !== 'TEXT')
-            //                     console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
-            //                 else
-            //                     console.log(prefix + 'Body [%s] Finished', inspect(info.which));
-            //             });
-            //         });
-            //         msg.once('attributes', function (attrs) {
-            //             console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
-            //         });
-            //         msg.once('end', function () {
-            //             console.log(prefix + 'Finished');
-            //         });
-            //     });
-            //     f.once('error', function (err) {
-            //         console.log('Fetch error: ' + err);
-            //     });
-            //     f.once('end', function () {
-            //         console.log('Done fetching all messages!');
-            //         imap.end();
-            //     });
-            // });
         });
 
         this.imap.once('error', function (err: any) {
@@ -92,6 +46,51 @@ class ImapFace {
         return imap;
     }
 
+    /**
+     * openMail
+     */
+    public async openMail(boxName: string): Promise<Message[]> {
+        let box = await this.imap.openBoxAsync(boxName, true);
+        let start = box.messages.total - 2;
+        return new Promise((resolve,reject) => {
+            let f = this.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ['HEADER.FIELDS (FROM SUBJECT DATE)', 'TEXT'] });
+            let mails: Message[] = [];
+            f.on('message', function (msg: any, seqno: any) {
+                console.log('Message #%d', seqno);
+                var prefix = '(#' + seqno + ') ';
+                msg.on('body', function (stream: any, info: any) {
+                    if (info.which === 'TEXT')
+                        console.log(prefix + 'Body [%s] found, %d total bytes', inspect(info.which), info.size);
+                    var buffer = '', count = 0;
+                    stream.on('data', function (chunk: any) {
+                        count += chunk.length;
+                        buffer += chunk.toString('utf8');
+                        if (info.which === 'TEXT')
+                            console.log(prefix + 'Body [%s] (%d/%d)', inspect(info.which), count, info.size);
+                    });
+                    stream.once('end', function () {
+                        if (info.which !== 'TEXT')
+                            console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
+                        else
+                            console.log(prefix + 'Body [%s] Finished', inspect(info.which));
+                    });
+                });
+                msg.once('attributes', function (attrs: any) {
+                    console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                });
+                msg.once('end', function () {
+                    console.log(prefix + 'Finished');
+                    mails.push(new Message('name', NodeType.Mail))
+                });
+            });
+            f.once('end', () => {
+                resolve(mails);
+            })
+            
+        });
+        
+    }
+
 }
 
 let imap = new ImapFace();
@@ -102,4 +101,14 @@ export enum NodeType {
     Vendor,
     Box,
     Mail,
+}
+
+export class Message {
+
+    /**
+     * constructor
+     */
+    public constructor(public readonly label: string,
+        public readonly type: NodeType,) { 
+    }
 }

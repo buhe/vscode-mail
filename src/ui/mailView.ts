@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
 import * as path from 'path';
 import Imap, {NodeType} from '../sdk/imap';
 
@@ -49,12 +48,13 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
             switch (element.type) {
                 case NodeType.Vendor:
                     let boxes = await this.imap.getBoxesAsync();
-                    let mails: Mail[] = [];
+                    let boxNodees: Mail[] = [];
                     for (const key in boxes) {
-                        mails.push(new Mail(key, NodeType.Box, vscode.TreeItemCollapsibleState.Collapsed));
+                        boxNodees.push(new Mail(key, NodeType.Box, vscode.TreeItemCollapsibleState.Collapsed));
                     }
-                    return Promise.resolve(mails);
+                    return Promise.resolve(boxNodees);
                 case NodeType.Box:
+                    let mails = await Imap.openMail(element.tooltip as string);
                     return Promise.resolve([]);
                 default:
                     return Promise.resolve([]);
