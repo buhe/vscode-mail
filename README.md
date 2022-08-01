@@ -29,6 +29,8 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 - [ ] cache mail by file.
 - [ ] send mail by stmp.
+- [ ] support gmail.
+- [ ] configuratin metadata by gui.
 
 ## Release Notes
 
