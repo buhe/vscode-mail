@@ -6,6 +6,7 @@ export class Mail extends vscode.TreeItem {
 
     constructor(
         public readonly label: string,
+        public readonly content: string,
         public readonly type: NodeType,
         public readonly collapsibleState: vscode.TreeItemCollapsibleState,
         public readonly command?: vscode.Command,
@@ -50,21 +51,33 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
                     let boxes = await this.imap.getBoxesAsync();
                     let boxNodees: Mail[] = [];
                     for (const key in boxes) {
-                        boxNodees.push(new Mail(key, NodeType.Box, vscode.TreeItemCollapsibleState.Collapsed));
+                        boxNodees.push(new Mail(key, '' ,NodeType.Box, vscode.TreeItemCollapsibleState.Collapsed));
                     }
                     return Promise.resolve(boxNodees);
                 case NodeType.Box:
                     let messages = await Imap.openMail(element.tooltip as string);
                     let mailNodes = messages.map((msg: Message) => {
-                        return new Mail(msg.subject, NodeType.Mail, vscode.TreeItemCollapsibleState.None);
+                        return new Mail(msg.subject, msg.content, NodeType.Mail, vscode.TreeItemCollapsibleState.None);
                     });
                     return Promise.resolve(mailNodes);
                 default:
                     return Promise.resolve([]);
             }
         } else {
-            return Promise.resolve([new Mail('126', NodeType.Vendor,vscode.TreeItemCollapsibleState.Collapsed)]);
+            return Promise.resolve([new Mail('126', '', NodeType.Vendor,vscode.TreeItemCollapsibleState.Collapsed)]);
         }
 
     }
+}
+
+export function openContent(mail: Mail) {
+    const panel = vscode.window.createWebviewPanel(
+        mail.tooltip as string,
+        mail.tooltip as string,
+        vscode.ViewColumn.One,
+        {}
+    );
+
+    // 设置HTML内容
+    panel.webview.html = mail.content;
 }

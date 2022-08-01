@@ -23,6 +23,10 @@
 					"light": "images/light/add.svg",
 					"dark": "images/dark/add.svg"
 				}
+			},
+			{
+				"command": "vsc-mail.openContent",
+				"title": "open mail"
 			}
 		],
 		"menus": {
@@ -31,6 +35,13 @@
 					"command": "vsc-mail.setupMail",
 					"when": "view == mail",
 					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "vsc-mail.openContent",
+					"when": "view == mail && viewItem == mail",
+					"group": "inline"
 				}
 			]
 		},
