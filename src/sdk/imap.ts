@@ -5,7 +5,8 @@ const inspect = require('util').inspect;
 const simpleParser = require('mailparser').simpleParser;
 function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
+} 
+const LOAD_MAIL = 5;
 class ImapFace {
     private imap: any;
     /**
@@ -55,7 +56,11 @@ class ImapFace {
      */
     public async openMail(boxName: string): Promise<Message[]> {
         let box = await this.imap.openBoxAsync(boxName, true);
-        let start = box.messages.total - 4;
+        let start = box.messages.total + 1 - LOAD_MAIL;
+        if(start < 0){
+            start = 1;
+        }
+        const mailCounts = box.messages.total + 1 - start;
         return new Promise((resolve,reject) => {
             let f = this.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ''});
             let mails: Message[] = [];
@@ -74,7 +79,10 @@ class ImapFace {
                 });
             });
             f.once('end', async () => {
-                await delay(10 * 1000);
+                // wait for parse all mails
+                while(mails.length !== mailCounts) {
+                    await delay(500);
+                }
                 resolve(mails);
             })
         });
