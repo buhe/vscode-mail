@@ -22,9 +22,9 @@ class ImapFace {
             tlsOptions: { servername: 'imap.126.com' },
             // debug: console.log,
             id: {
-                name: 'myemail',
+                name: 'vsc-mail',
                 version: '1.0.0',
-                vendor: "myclient",
+                vendor: "buhe",
                 "support-email": 'bugu1986@126.com',
             },
         } as any));
