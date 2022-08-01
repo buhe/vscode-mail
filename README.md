@@ -32,6 +32,11 @@ Calling out known issues can help limit users opening duplicate issues against y
 - [ ] support gmail.
 - [ ] configuratin metadata by gui.
 - [ ] publish this extendsion.
+- [ ] read/write tags.
+
+## Plan
+
+- [ ] support attachment.
 
 ## Release Notes
 
