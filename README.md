@@ -33,10 +33,12 @@ Calling out known issues can help limit users opening duplicate issues against y
 - [ ] configuratin metadata by gui.
 - [ ] publish this extendsion.
 - [ ] read/write tags.
+- [ ] event: new mail.
 
 ## Plan
 
 - [ ] support attachment.
+- [ ] send markdown.
 
 ## Release Notes
 

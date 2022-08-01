@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import Imap, {Message, NodeType} from '../sdk/imap';
+import { getSmtpInstance } from '../sdk/holder';
 
 export class Mail extends vscode.TreeItem {
 
@@ -68,6 +69,11 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
         }
 
     }
+}
+
+export async function reply(mail: Mail) {
+    let smtp = getSmtpInstance();
+    await smtp.send('bugu1986@gmail.com', 'Test Email Subject', '<h1>Example Plain Text Message Body</h1>')
 }
 
 export function openContent(mail: Mail) {

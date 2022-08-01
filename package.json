@@ -26,7 +26,11 @@
 			},
 			{
 				"command": "vsc-mail.openContent",
-				"title": "open mail"
+				"title": "open"
+			},
+			{
+				"command": "vsc-mail.reply",
+				"title": "reply"
 			}
 		],
 		"menus": {
@@ -40,6 +44,11 @@
 			"view/item/context": [
 				{
 					"command": "vsc-mail.openContent",
+					"when": "view == mail && viewItem == mail",
+					"group": "inline"
+				},
+				{
+					"command": "vsc-mail.reply",
 					"when": "view == mail && viewItem == mail",
 					"group": "inline"
 				}
