@@ -2,6 +2,10 @@ import * as Imap from 'node-imap';
 import * as vscode from 'vscode';
 const bluebird = require('bluebird');
 const inspect = require('util').inspect;
+const simpleParser = require('mailparser').simpleParser;
+function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 class ImapFace {
     private imap: any;
     /**
@@ -51,35 +55,15 @@ class ImapFace {
      */
     public async openMail(boxName: string): Promise<Message[]> {
         let box = await this.imap.openBoxAsync(boxName, true);
-        let start = box.messages.total - 2;
+        let start = box.messages.total - 4;
         return new Promise((resolve,reject) => {
-            let f = this.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ['HEADER.FIELDS (FROM SUBJECT DATE)', 'TEXT'] });
+            let f = this.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ''});
             let mails: Message[] = [];
             f.on('message', function (msg: any, seqno: any) {
-                console.log('Message #%d', seqno);
                 var prefix = '(#' + seqno + ') ';
-                let subject = '';
-                let content = '';
                 msg.on('body', function (stream: any, info: any) {
-                    // if (info.which === 'TEXT')
-                    //     console.log(prefix + 'Body [%s] found, %d total bytes', inspect(info.which), info.size);
-                    var buffer = '', count = 0;
-                    
-                    stream.on('data', function (chunk: any) {
-                        count += chunk.length;
-                        buffer += chunk.toString('utf8');
-                        // if (info.which === 'TEXT')
-                        //     console.log(prefix + 'Body [%s] (%d/%d)', inspect(info.which), count, info.size);
-                    });
-                    stream.once('end', function () {
-                        if (info.which !== 'TEXT')
-                            {
-                                subject = Imap.parseHeader(buffer).subject[0];
-                                // console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
-                            }
-                        else
-                            content = buffer;
-                            // console.log(prefix + 'Body [%s] Finished', inspect(info.which));
+                    simpleParser(stream, (err: any, mail: any) => { //use this
+                        mails.push(new Message(mail.subject, mail.html, NodeType.Mail))
                     });
                 });
                 msg.once('attributes', function (attrs: any) {
@@ -87,15 +71,13 @@ class ImapFace {
                 });
                 msg.once('end', function () {
                     console.log(prefix + 'Finished');
-                    mails.push(new Message(subject, content, NodeType.Mail))
                 });
             });
-            f.once('end', () => {
+            f.once('end', async () => {
+                await delay(10 * 1000);
                 resolve(mails);
             })
-            
         });
-        
     }
 
 }

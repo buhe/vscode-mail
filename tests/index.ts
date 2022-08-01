@@ -12,7 +12,7 @@ describe('imap', () => {
     let imap: any;
     before(async function () {
         imap = Imap.connect();
-        await delay(5 * 1000);
+        await delay(10 * 1000);
     });
     after(function () {
         imap.end();
