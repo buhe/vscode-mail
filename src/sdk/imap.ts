@@ -6,7 +6,7 @@ const simpleParser = require('mailparser').simpleParser;
 function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 } 
-const LOAD_MAIL = 5;
+const LOAD_MAIL = 15;
 class ImapFace {
     private imap: any;
     /**
@@ -81,7 +81,7 @@ class ImapFace {
             f.once('end', async () => {
                 // wait for parse all mails
                 while(mails.length !== mailCounts) {
-                    await delay(500);
+                    await delay(100);
                 }
                 resolve(mails);
             })
