@@ -99,9 +99,11 @@
 		"webpack-cli": "^4.9.1"
 	},
 	"dependencies": {
+		"@types/nodemailer": "^6.4.4",
 		"bluebird": "^3.7.2",
 		"mailparser": "^3.5.0",
 		"node-imap": "github:buhe/node-imap",
+		"nodemailer": "^6.7.7",
 		"util": "^0.12.4"
 	}
 }

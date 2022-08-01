@@ -28,7 +28,7 @@ Calling out known issues can help limit users opening duplicate issues against y
 ## Tasks
 
 - [ ] cache mail by file.
-- [ ] send mail by stmp.
+- [ ] send mail by smtp.
 - [ ] support gmail.
 - [ ] configuratin metadata by gui.
 - [ ] publish this extendsion.
