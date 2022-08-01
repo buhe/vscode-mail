@@ -31,6 +31,7 @@ Calling out known issues can help limit users opening duplicate issues against y
 - [ ] send mail by stmp.
 - [ ] support gmail.
 - [ ] configuratin metadata by gui.
+- [ ] publish this extendsion.
 
 ## Release Notes
 
