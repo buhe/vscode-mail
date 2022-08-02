@@ -11,8 +11,8 @@ function delay(ms: number) {
 describe('imap', () => {
     let imap: any;
     before(async function () {
-        imap = Imap.connect();
-        await delay(10 * 1000);
+        imap = await Imap.connect();
+        // await delay(10 * 1000);
     });
     after(function () {
         imap.end();

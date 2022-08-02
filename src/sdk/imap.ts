@@ -32,23 +32,24 @@ class ImapFace {
     /**
      * connect
      */
-    public connect(ready?: (imap: any) => void): any {
-        let imap = this.imap;
-        imap.once('ready', function () {
-            if(ready) {
-                ready(imap);
-            }
-        });
+    public async connect(): Promise<any> {
+        return new Promise((resolve,reject) => {
+            let out = this;
+            this.imap.once('ready', function () {
+                resolve(out.imap);
+            });
 
-        this.imap.once('error', function (err: any) {
-            console.log(err);
-        });
+            this.imap.once('error', function (err: any) {
+                console.log(err);
+                reject(err);
+            });
 
-        this.imap.once('end', function () {
-            console.log('Connection ended');
-        });
-        this.imap.connect();
-        return imap;
+            this.imap.once('end', function () {
+                console.log('Connection ended');
+            });
+            this.imap.connect();
+        })
+        
     }
 
     /**
@@ -99,7 +100,6 @@ export enum NodeType {
     Box,
     Mail,
 }
-
 export class Message {
 
     /**

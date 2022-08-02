@@ -33,7 +33,11 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
     readonly onDidChangeTreeData: vscode.Event<Mail | undefined | void> = this._onDidChangeTreeData.event;
 
     constructor() {
-        this.imap = Imap.connect();
+        
+    }
+
+    async init() {
+        this.imap = await Imap.connect();
     }
 
     refresh(): void {
