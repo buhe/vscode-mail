@@ -13,7 +13,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "vsc-mail" is now active!');
-	const mailProvider = new MailProvider();
+	const mailProvider = new MailProvider(context);
 	await mailProvider.init();
 	vscode.window.registerTreeDataProvider('mail', mailProvider);
 	// The command has been defined in the package.json file
@@ -22,26 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('vsc-mail.openContent', (mail: Mail) => openContent(mail));
 	vscode.commands.registerCommand('vsc-mail.reply', (mail: Mail) => reply(mail));
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
-		// let data: any = {};
-		// MultiStepInput.run(async (input) => {
-			// data.user = await input.showInputBox({
-			// 	title: 'UserName',
-			// 	step: 1,
-			// 	totalSteps: 2,
-			// 	value: data.user,
-			// 	prompt: 'Input 126 user name, please',
-			// });
-
-			// data.pass = await input.showInputBox({
-			// 	title: 'Password',
-			// 	step: 2,
-			// 	totalSteps: 2,
-			// 	value: data.pass,
-			// 	prompt: 'Input 126 password, please',
-			// });
-			// vscode.window.showInformationMessage('126 setup ' + JSON.stringify(data));
-		// });
-		Net126.compile();
+		Net126.compile(context);
 	});
 	let disposable = vscode.commands.registerCommand('vsc-mail.setupMail', () => {
 		// The code you place here will be executed every time your command is executed

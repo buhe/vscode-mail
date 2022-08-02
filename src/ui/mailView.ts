@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import Imap, {Message, NodeType} from '../sdk/imap';
 import { getSmtpInstance } from '../sdk/holder';
+import { MAIL_KEY } from '../strategy';
 
 export class Mail extends vscode.TreeItem {
 
@@ -32,7 +33,7 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
     private _onDidChangeTreeData: vscode.EventEmitter<Mail | undefined | void> = new vscode.EventEmitter<Mail | undefined | void>();
     readonly onDidChangeTreeData: vscode.Event<Mail | undefined | void> = this._onDidChangeTreeData.event;
 
-    constructor() {
+    constructor(private context: vscode.ExtensionContext) {
         
     }
 
@@ -69,7 +70,16 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
                     return Promise.resolve([]);
             }
         } else {
-            return Promise.resolve([new Mail('126', '', NodeType.Vendor,vscode.TreeItemCollapsibleState.Collapsed)]);
+            let vendors: any = this.context.globalState.get(MAIL_KEY);
+            if(vendors && Object.keys(vendors).length > 0){
+                let vendorKeys = Object.keys(vendors);
+                let nodes = vendorKeys.map((vendorKey) => {
+                    return new Mail(vendorKey, '', NodeType.Vendor, vscode.TreeItemCollapsibleState.Collapsed)
+                })
+                return Promise.resolve(nodes);
+            } else {
+                return Promise.resolve([]);
+            }
         }
 
     }
