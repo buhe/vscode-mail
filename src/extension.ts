@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import Imap from './sdk/imap';
+import { Net126 } from './strategy/Net126';
 import { Mail, MailProvider, openContent, reply } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 
@@ -20,6 +21,28 @@ export async function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 	vscode.commands.registerCommand('vsc-mail.openContent', (mail: Mail) => openContent(mail));
 	vscode.commands.registerCommand('vsc-mail.reply', (mail: Mail) => reply(mail));
+	vscode.commands.registerCommand('vsc-mail.setup126', () => {
+		// let data: any = {};
+		// MultiStepInput.run(async (input) => {
+			// data.user = await input.showInputBox({
+			// 	title: 'UserName',
+			// 	step: 1,
+			// 	totalSteps: 2,
+			// 	value: data.user,
+			// 	prompt: 'Input 126 user name, please',
+			// });
+
+			// data.pass = await input.showInputBox({
+			// 	title: 'Password',
+			// 	step: 2,
+			// 	totalSteps: 2,
+			// 	value: data.pass,
+			// 	prompt: 'Input 126 password, please',
+			// });
+			// vscode.window.showInformationMessage('126 setup ' + JSON.stringify(data));
+		// });
+		Net126.compile();
+	});
 	let disposable = vscode.commands.registerCommand('vsc-mail.setupMail', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
@@ -40,14 +63,15 @@ export async function activate(context: vscode.ExtensionContext) {
 			});
 			switch (pick.label) {
 				case '126':
+					vscode.commands.executeCommand('vsc-mail.setup126');
 					break;
 				case 'GMail':
 					break;
 			}
 
 		});
-		context.globalState.update('foo', {'foo': 'bar'});
-		vscode.window.showInformationMessage('Hello World from vsc-mail!' + JSON.stringify(context.globalState.get('foo')));
+		// context.globalState.update('foo', {'foo': 'bar'});
+		
 	});
 
 	context.subscriptions.push(disposable);

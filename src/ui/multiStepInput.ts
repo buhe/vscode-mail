@@ -159,9 +159,9 @@ interface InputBoxParameters {
     totalSteps: number;
     value: string;
     prompt: string;
-    validate: (value: string) => Promise<string | undefined>;
+    validate?: (value: string) => Promise<string | undefined>;
     buttons?: QuickInputButton[];
-    shouldResume: () => Thenable<boolean>;
+    shouldResume?: () => Thenable<boolean>;
 }
 
 export class MultiStepInput {
@@ -260,7 +260,7 @@ export class MultiStepInput {
                     ...(this.steps.length > 1 ? [QuickInputButtons.Back] : []),
                     ...(buttons || [])
                 ];
-                let validating = validate('');
+                let validating = validate && validate('');
                 disposables.push(
                     input.onDidTriggerButton(item => {
                         if (item === QuickInputButtons.Back) {
@@ -273,14 +273,14 @@ export class MultiStepInput {
                         const value = input.value;
                         input.enabled = false;
                         input.busy = true;
-                        if (!(await validate(value))) {
+                        if (!(validate && await validate(value))) {
                             resolve(value);
                         }
                         input.enabled = true;
                         input.busy = false;
                     }),
                     input.onDidChangeValue(async text => {
-                        const current = validate(text);
+                        const current = validate && validate(text);
                         validating = current;
                         const validationMessage = await current;
                         if (current === validating) {

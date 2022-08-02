@@ -29,6 +29,10 @@
 				"title": "open"
 			},
 			{
+				"command": "vsc-mail.setup126",
+				"title": "setup 126"
+			},
+			{
 				"command": "vsc-mail.reply",
 				"title": "reply"
 			}
