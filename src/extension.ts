@@ -28,7 +28,7 @@ export async function activate(context: vscode.ExtensionContext) {
 				title: 'create mail vendor',
 				step: 1,
 				totalSteps: 1,
-				placeholder: 'ph',
+				placeholder: 'mail vendor',
 				items: [
 					{
 						label: `126`,
