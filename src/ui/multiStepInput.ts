@@ -2,6 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+// copy from https://github.com/microsoft/vscode-extension-samples
 
 import { QuickPickItem, window, Disposable, CancellationToken, QuickInputButton, QuickInput, ExtensionContext, QuickInputButtons, Uri } from 'vscode';
 
@@ -149,7 +150,7 @@ interface QuickPickParameters<T extends QuickPickItem> {
     activeItem?: T;
     placeholder: string;
     buttons?: QuickInputButton[];
-    shouldResume: () => Thenable<boolean>;
+    // shouldResume: () => Thenable<boolean>;
 }
 
 interface InputBoxParameters {
@@ -163,7 +164,7 @@ interface InputBoxParameters {
     shouldResume: () => Thenable<boolean>;
 }
 
-class MultiStepInput {
+export class MultiStepInput {
 
     static async run<T>(start: InputStep) {
         const input = new MultiStepInput();
@@ -201,7 +202,7 @@ class MultiStepInput {
         }
     }
 
-    async showQuickPick<T extends QuickPickItem, P extends QuickPickParameters<T>>({ title, step, totalSteps, items, activeItem, placeholder, buttons, shouldResume }: P) {
+    async showQuickPick<T extends QuickPickItem, P extends QuickPickParameters<T>>({ title, step, totalSteps, items, activeItem, placeholder, buttons/*, shouldResume */}: P) {
         const disposables: Disposable[] = [];
         try {
             return await new Promise<T | (P extends { buttons: (infer I)[] } ? I : never)>((resolve, reject) => {
@@ -229,7 +230,7 @@ class MultiStepInput {
                     input.onDidChangeSelection(items => resolve(items[0])),
                     input.onDidHide(() => {
                         (async () => {
-                            reject(shouldResume && await shouldResume() ? InputFlowAction.resume : InputFlowAction.cancel);
+                            reject(/*shouldResume && await shouldResume() ? InputFlowAction.resume : */InputFlowAction.cancel);
                         })()
                             .catch(reject);
                     })
