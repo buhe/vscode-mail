@@ -79,17 +79,17 @@ class ImapFace {
                     mail = await simpleParser(stream);
                     // 3
                     console.log(prefix + '3 Parsed');
-                    out.cache.setCache(uid, mail.subject, mail.html);
+                    await out.cache.setCache(uid, mail.subject, mail.html);
                     parsed = true;
                 });
-                msg.once('attributes', function (attrs: any) {
+                msg.once('attributes', async function (attrs: any) {
                     // 2
                     console.log(prefix + '2 Attributes: %s', JSON.stringify(attrs));
                     console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // FIXME uid from attrs
                     // TODO check cache, set pasrsed to true, read cache to mail object.
-                    if(out.cache.hasCache(uid)) {
-                        let c = out.cache.getCache(uid);
+                    if(await out.cache.hasCache(uid)) {
+                        let c = await out.cache.getCache(uid);
                         mail.subject = c[0];
                         mail.html = c[1];
                         parsed = true;
