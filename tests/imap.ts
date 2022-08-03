@@ -26,13 +26,13 @@ describe('imap', () => {
 
     it('getBoxes',async () => {
         let b = await imap.getBoxesAsync();
-        console.log(b);
+        // console.log(b);
         assert(Object.keys(b.length > 0));
     })
 
     it('read selected mailbox', async () => {
         let mails = await imapFace.openMail('INBOX');
-        console.log(mails);
+        // console.log(mails);
         assert(mails.length > 0);
     })
 })

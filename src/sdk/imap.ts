@@ -6,7 +6,7 @@ const simpleParser = require('mailparser').simpleParser;
 function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 } 
-const LOAD_MAIL = 15;
+const LOAD_MAIL = 10;
 class ImapFace {
     private imap: any;
     /**
@@ -71,6 +71,7 @@ class ImapFace {
                     simpleParser(stream, (err: any, mail: any) => { //use this
                         mails.push(new Message(mail.subject, mail.html, NodeType.Mail))
                     });
+                    console.log(prefix + 'Parsed');
                 });
                 msg.once('attributes', function (attrs: any) {
                     console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));

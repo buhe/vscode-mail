@@ -34,6 +34,7 @@ Calling out known issues can help limit users opening duplicate issues against y
 - [ ] publish this extendsion.
 - [ ] read/write tags.
 - [ ] event: new mail.
+- [ ] package this extendsion.
 
 ## Plan
 
