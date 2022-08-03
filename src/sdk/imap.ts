@@ -1,5 +1,5 @@
 import * as Imap from 'node-imap';
-import * as vscode from 'vscode';
+import { IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
 const bluebird = require('bluebird');
 const inspect = require('util').inspect;
 const simpleParser = require('mailparser').simpleParser;
@@ -12,20 +12,20 @@ class ImapFace {
     /**
      * constructor
      */
-    public constructor() {
+    public constructor(config: any) {
         this.imap = bluebird.promisifyAll(new Imap({
-            user: 'bugu1986@126.com',
-            password: 'UMXTDSXKNLBRSSOB',
-            host: 'imap.126.com',
-            port: 993,
+            user: config[USER_KEY],
+            password: config[PASS_KEY],
+            host: config[IMAP_SERVER_KEY],
+            port: config[IMAP_PORT_KEY],
             tls: true,
-            tlsOptions: { servername: 'imap.126.com' },
+            tlsOptions: { servername: config[IMAP_SERVER_KEY] },
             // debug: console.log,
             id: {
                 name: 'vsc-mail',
                 version: '1.0.0',
                 vendor: "buhe",
-                "support-email": 'bugu1986@126.com',
+                "support-email": config[USER_KEY],
             },
         } as any));
     }
@@ -91,9 +91,9 @@ class ImapFace {
 
 }
 
-let imap = new ImapFace();
+// let imap = new ImapFace();
 
-export default imap;
+export default ImapFace;
 
 export enum NodeType {
     Vendor,

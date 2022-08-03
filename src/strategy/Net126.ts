@@ -40,7 +40,8 @@ export class Net126 {
             vscode.window.showInformationMessage('126 setup ' + JSON.stringify(data));
             let old = context.globalState.get(MAIL_KEY) as any;
             let n = { [data.display]: data };
-            context.globalState.update(MAIL_KEY, {...n, ...old});
+            let merge = { ...n, ...old };
+            context.globalState.update(MAIL_KEY, merge);
         });
     }
 

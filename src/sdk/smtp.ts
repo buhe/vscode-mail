@@ -1,19 +1,20 @@
 import * as nodemailer from 'nodemailer';
 import SMTPTransport = require('nodemailer/lib/smtp-transport');
+import { PASS_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, USER_KEY } from '../strategy';
 export default class SmtpFace {
     private transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
-    constructor() {
+    constructor(private config: any) {
         this.transporter = nodemailer.createTransport({
-            host: 'smtp.126.com',
-            port: 994,
+            host: config[SMTP_SERVER_KEY],
+            port: config[SMTP_PORT_KEY],
             auth: {
-                user: 'bugu1986@126.com',
-                pass: 'UMXTDSXKNLBRSSOB'
+                user: config[USER_KEY],
+                pass: config[PASS_KEY],
             },
             secure: true,
             tls: {
                 // must provide server name, otherwise TLS certificate check will fail
-                servername: 'smtp.126.com'
+                servername: config[SMTP_SERVER_KEY],
             },
             debug: true
         });
@@ -25,7 +26,7 @@ export default class SmtpFace {
     public async send(to: string, subject: string, html: string) {
         // send email
         await this.transporter.sendMail({
-            from: 'bugu1986@126.com',
+            from: this.config[USER_KEY],
             to: to,
             subject: subject,
             html: html

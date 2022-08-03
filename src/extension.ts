@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import Imap from './sdk/imap';
+import { MAIL_KEY } from './strategy';
 import { Net126 } from './strategy/Net126';
 import { Mail, MailProvider, openContent, reply } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
@@ -14,7 +15,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "vsc-mail" is now active!');
 	const mailProvider = new MailProvider(context);
-	await mailProvider.init();
+	// await mailProvider.init();
 	vscode.window.registerTreeDataProvider('mail', mailProvider);
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -51,7 +52,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 
 		});
-		// context.globalState.update('foo', {'foo': 'bar'});
+		// context.globalState.update(MAIL_KEY, {});
 		
 	});
 

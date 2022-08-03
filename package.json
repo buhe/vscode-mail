@@ -3,6 +3,7 @@
 	"displayName": "vsc-mail",
 	"description": "VS Code mail client.",
 	"version": "0.0.1",
+	"license": "GPL-3.0",
 	"engines": {
 		"vscode": "^1.69.0"
 	},
