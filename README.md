@@ -6,6 +6,8 @@ This is the README for your extension "vsc-mail". After writing up a brief descr
 
 Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
+![截屏2022-08-02 15.19.45](https://tva1.sinaimg.cn/large/e6c9d24egy1h4tpoed9saj21i60u079h.jpg)
+
 ## Requirements
 
 If you have any requirements or dependencies, add a section describing those and how to install and configure them.
