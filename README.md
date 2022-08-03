@@ -30,7 +30,7 @@ Calling out known issues can help limit users opening duplicate issues against y
 - [ ] cache mail by file.
 - [ ] send mail by smtp.
 - [ ] support gmail.
-- [ ] configuratin metadata by gui.
+- [x] configuratin metadata by gui.
 - [ ] publish this extendsion.
 - [ ] read/write tags.
 - [ ] event: new mail.
