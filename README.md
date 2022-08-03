@@ -21,6 +21,7 @@
 - [ ] event: new mail.
 - [x] package this extendsion.
 - [ ] open mail via click.
+- [ ] Notification API.
 
 ## Plan
 
