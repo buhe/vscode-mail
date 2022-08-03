@@ -1,7 +1,7 @@
 import * as chai from 'chai';
-import ImapFace from '../src/sdk/imap';
+import ImapFace from '../sdk/imap';
 import { assert } from 'chai';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../src/strategy';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
 
 describe('imap', () => {
     let imapFace: ImapFace;

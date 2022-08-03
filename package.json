@@ -10,6 +10,7 @@
 	"categories": [
 		"Other"
 	],
+	"repository": "https://github.com/buhe/vsc-mail",
 	"activationEvents": [
 		"onCommand:vsc-mail.setupMail",
 		"onView:mail"
@@ -87,7 +88,7 @@
 		"pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
-		"utest": "mocha --timeout 130000 -r ts-node/register 'tests/**/*.ts'"
+		"utest": "mocha --timeout 130000 -r ts-node/register 'src/tests/**/*.ts'"
 	},
 	"devDependencies": {
 		"@types/assert": "^1.5.6",

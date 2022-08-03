@@ -1,5 +1,5 @@
-import SmtpFace from "../src/sdk/smtp"
-import { PASS_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, USER_KEY } from "../src/strategy";
+import SmtpFace from "../sdk/smtp"
+import { PASS_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, USER_KEY } from "../strategy";
 
 describe('smtp', () => {
     it('connect smtp', async () => {
