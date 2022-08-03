@@ -1,7 +1,7 @@
 import * as Imap from 'node-imap';
-import { IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
+import Cache from './cache';
 const bluebird = require('bluebird');
-const inspect = require('util').inspect;
 const simpleParser = require('mailparser').simpleParser;
 function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -9,6 +9,7 @@ function delay(ms: number) {
 const LOAD_MAIL = 10;
 class ImapFace {
     private imap: any;
+    private cache: Cache;
     /**
      * constructor
      */
@@ -28,6 +29,7 @@ class ImapFace {
                 "support-email": config[USER_KEY],
             },
         } as any));
+        this.cache = new Cache(config[DISPLAY_KEY]);
     }
     /**
      * connect
@@ -61,6 +63,7 @@ class ImapFace {
         if(start < 0){
             start = 1;
         }
+        let out = this;
         const mailCounts = box.messages.total + 1 - start;
         return new Promise((resolve,reject) => {
             let f = this.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ''});
@@ -68,15 +71,29 @@ class ImapFace {
             f.on('message', function (msg: any, seqno: any) {
                 var prefix = '(#' + seqno + ') ';
                 let mail: any;
+                let uid: number;
                 let parsed = false;
                 msg.on('body',async function (stream: any, info: any) {
+                    // 1
+                    console.log(prefix+ '1 ' + JSON.stringify(info));
                     mail = await simpleParser(stream);
-                    console.log(prefix + 'Parsed');
+                    // 3
+                    console.log(prefix + '3 Parsed');
+                    out.cache.setCache(uid, mail.subject, mail.html);
                     parsed = true;
                 });
                 msg.once('attributes', function (attrs: any) {
-                    console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                    // 2
+                    console.log(prefix + '2 Attributes: %s', JSON.stringify(attrs));
+                    console.log(prefix + '2 uid: %s', attrs['uid']);
+                    uid = attrs['uid']; // FIXME uid from attrs
                     // TODO check cache, set pasrsed to true, read cache to mail object.
+                    if(out.cache.hasCache(uid)) {
+                        let c = out.cache.getCache(uid);
+                        mail.subject = c[0];
+                        mail.html = c[1];
+                        parsed = true;
+                    }
                     // TODO read/write flags.
                 });
                 msg.once('end', async function () {

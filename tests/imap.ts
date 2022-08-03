@@ -1,11 +1,7 @@
 import * as chai from 'chai';
 import ImapFace from '../src/sdk/imap';
 import { assert } from 'chai';
-import { IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../src/strategy';
-const inspect = require('util').inspect;
-function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../src/strategy';
 
 describe('imap', () => {
     let imapFace: ImapFace;
@@ -16,9 +12,9 @@ describe('imap', () => {
             [IMAP_PORT_KEY]: 993,
             [USER_KEY]: 'bugu1986@126.com',
             [PASS_KEY]: 'UMXTDSXKNLBRSSOB',
+            [DISPLAY_KEY]: 'my126',
         });
         imap = await imapFace.connect();
-        // await delay(10 * 1000);
     });
     after(function () {
         imap.end();
