@@ -19,7 +19,8 @@
 - [ ] publish this extendsion.
 - [ ] read/write tags.
 - [ ] event: new mail.
-- [ ] package this extendsion.
+- [x] package this extendsion.
+- [ ] open mail via click.
 
 ## Plan
 
