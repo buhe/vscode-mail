@@ -56,7 +56,7 @@ class ImapFace {
      * openMail
      */
     public async openMail(boxName: string): Promise<Message[]> {
-        let box = await this.imap.openBoxAsync(boxName, true);
+        let box = await this.imap.openBoxAsync(boxName, false);
         let start = box.messages.total + 1 - LOAD_MAIL;
         if(start < 0){
             start = 1;
@@ -67,17 +67,24 @@ class ImapFace {
             let mails: Message[] = [];
             f.on('message', function (msg: any, seqno: any) {
                 var prefix = '(#' + seqno + ') ';
-                msg.on('body', function (stream: any, info: any) {
-                    simpleParser(stream, (err: any, mail: any) => { //use this
-                        mails.push(new Message(mail.subject, mail.html, NodeType.Mail))
-                    });
+                let mail: any;
+                let parsed = false;
+                msg.on('body',async function (stream: any, info: any) {
+                    mail = await simpleParser(stream);
                     console.log(prefix + 'Parsed');
+                    parsed = true;
                 });
                 msg.once('attributes', function (attrs: any) {
                     console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
                 });
-                msg.once('end', function () {
+                msg.once('end', async function () {
+                    // mail maybe begin parse, but not full parsed. Attributes must parsed.
+                    // so, we need to wait mail parsed or hit cache.
+                    while(!parsed) {
+                        await delay(100);
+                    }
                     console.log(prefix + 'Finished');
+                    mails.push(new Message(mail.subject, mail.html, NodeType.Mail, []))
                 });
             });
             f.once('end', async () => {
@@ -108,6 +115,7 @@ export class Message {
      */
     public constructor(public readonly subject: string,
         public readonly content: string,
-        public readonly type: NodeType,) { 
+        public readonly type: NodeType,
+        public readonly tags: string[]) { 
     }
 }
