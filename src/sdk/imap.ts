@@ -76,6 +76,8 @@ class ImapFace {
                 });
                 msg.once('attributes', function (attrs: any) {
                     console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                    // TODO check cache, set pasrsed to true, read cache to mail object.
+                    // TODO read/write flags.
                 });
                 msg.once('end', async function () {
                     // mail maybe begin parse, but not full parsed. Attributes must parsed.
