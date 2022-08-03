@@ -87,7 +87,7 @@ class ImapFace {
                     console.log(prefix + '2 Attributes: %s', JSON.stringify(attrs));
                     console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // FIXME uid from attrs
-                    // TODO check cache, set pasrsed to true, read cache to mail object.
+                    // check cache, set pasrsed to true, read cache to mail object.
                     if(await out.cache.hasCache(uid)) {
                         let c = await out.cache.getCache(uid);
                         mail.subject = c[0];
