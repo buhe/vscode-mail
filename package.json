@@ -37,6 +37,10 @@
 			{
 				"command": "vsc-mail.reply",
 				"title": "reply"
+			},
+			{
+				"command": "vsc-mail.send",
+				"title": "send"
 			}
 		],
 		"menus": {
@@ -55,6 +59,11 @@
 				},
 				{
 					"command": "vsc-mail.reply",
+					"when": "view == mail && viewItem == mail",
+					"group": "inline"
+				},
+				{
+					"command": "vsc-mail.send",
 					"when": "view == mail && viewItem == mail",
 					"group": "inline"
 				}

@@ -32,7 +32,6 @@ An Mail client embedded in Visual Studio Code
 
 ## Release Notes
 
-
 ### 0.1.0
 
 Initial release of vsc-mail.

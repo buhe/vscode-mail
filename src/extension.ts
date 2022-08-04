@@ -21,7 +21,10 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	vscode.commands.registerCommand('vsc-mail.openContent', (mail: Mail) => openContent(mail));
-	vscode.commands.registerCommand('vsc-mail.reply', (mail: Mail) => reply(mail));
+	vscode.commands.registerCommand('vsc-mail.reply', async (mail: Mail) => {
+		let document = await vscode.workspace.openTextDocument({language: 'markdown'});
+		await vscode.window.showTextDocument(document);
+	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
 		Net126.compile(context);
 	});
