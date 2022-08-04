@@ -21,10 +21,10 @@ A Mail client embedded in Visual Studio Code
 - [ ] send mail by smtp.
 - [ ] support gmail.
 - [x] configuration metadata by gui.
-- [ ] publish this extendsion.
+- [ ] publish this extension.
 - [ ] read/write tags.
 - [ ] event: new mail.
-- [x] package this extendsion.
+- [x] package this extension.
 - [ ] open mail via click.
 - [ ] Notification API.
 - [ ] send markdown.
