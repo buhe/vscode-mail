@@ -4,7 +4,7 @@ A Mail client embedded in Visual Studio Code
 
 ## Features
 
-![截屏2022-08-02 15.19.45](https://tva1.sinaimg.cn/large/e6c9d24egy1h4tpoed9saj21i60u079h.jpg)
+![Features](https://tva1.sinaimg.cn/large/e6c9d24egy1h4tpoed9saj21i60u079h.jpg)
 
 - 126.com vendor test pass.
 - Support relay mail via MarkDown.
