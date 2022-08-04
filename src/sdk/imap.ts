@@ -78,20 +78,21 @@ class ImapFace {
                     console.log(prefix+ '1 ' + JSON.stringify(info));
                     mail = await simpleParser(stream);
                     // 3
-                    console.log(prefix + '3 Parsed');
-                    await out.cache.setCache(uid, mail.subject, mail.html);
+                    // console.log(prefix + JSON.stringify(mail) + '3 Parsed');
+                    await out.cache.setCache(uid, mail.subject, mail.from['value'][0]['address'], mail.html);
                     parsed = true;
                 });
                 msg.once('attributes', async function (attrs: any) {
                     // 2
                     console.log(prefix + '2 Attributes: %s', JSON.stringify(attrs));
                     console.log(prefix + '2 uid: %s', attrs['uid']);
-                    uid = attrs['uid']; // FIXME uid from attrs
-                    // check cache, set pasrsed to true, read cache to mail object.
+                    uid = attrs['uid']; // uid from attrs
+                    // check cache, set parsed to true, read cache to mail object.
                     if(await out.cache.hasCache(uid)) {
                         let c = await out.cache.getCache(uid);
                         mail.subject = c[0];
-                        mail.html = c[1];
+                        mail.from = c[1];
+                        mail.html = c[2];
                         parsed = true;
                     }
                     // TODO read/write flags.
@@ -103,7 +104,7 @@ class ImapFace {
                         await delay(100);
                     }
                     console.log(prefix + 'Finished');
-                    mails.push(new Message(mail.subject, mail.html, NodeType.Mail, []))
+                    mails.push(new Message(mail.subject, mail.from['value'][0]['address'], mail.html, NodeType.Mail, []))
                 });
             });
             f.once('end', async () => {
@@ -133,6 +134,7 @@ export class Message {
      * constructor
      */
     public constructor(public readonly subject: string,
+        public readonly from: string,
         public readonly content: string,
         public readonly type: NodeType,
         public readonly tags: string[]) { 

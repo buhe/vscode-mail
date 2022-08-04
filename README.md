@@ -6,6 +6,7 @@ A Mail client embedded in Visual Studio Code
 
 ![Features](https://tva1.sinaimg.cn/large/e6c9d24egy1h4tpoed9saj21i60u079h.jpg)
 
+- Support IMAP and SMTP protocol.
 - 126.com vendor test pass.
 - Support relay mail via MarkDown.
 
@@ -18,7 +19,7 @@ A Mail client embedded in Visual Studio Code
 ## Tasks
 
 - [x] cache mail by file.
-- [ ] send mail by smtp.
+- [x] send mail by smtp.
 - [ ] support gmail.
 - [x] configuration metadata by gui.
 - [ ] publish this extension.
@@ -27,7 +28,7 @@ A Mail client embedded in Visual Studio Code
 - [x] package this extension.
 - [ ] open mail via click.
 - [ ] Notification API.
-- [ ] send markdown.
+- [x] send markdown.
 
 ## Plan
 

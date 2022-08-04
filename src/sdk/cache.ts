@@ -28,10 +28,10 @@ uid: number : boolean    */
     /**
      * cache
 subject: string     */
-    public async setCache(uid:number, subject: string, content: string) {
+    public async setCache(uid:number, subject: string, from: string, content: string) {
         let fileName = [this.vendor_cache_dir, uid].join(path.sep);
-        let fileCotent = [subject, content].join(Cache.CACHE_SPLIT_KEY);
-        await fs.writeFile(fileName, fileCotent);
+        let fileContent = [subject, from, content].join(Cache.CACHE_SPLIT_KEY);
+        await fs.writeFile(fileName, fileContent);
     }
 
     /**
@@ -39,8 +39,8 @@ subject: string     */
      */
     public async getCache(uid: number): Promise<string[]> {
         let fileName = [this.vendor_cache_dir, uid].join(path.sep);
-        let fileCotent = await fs.readFile(fileName);
-        let cacheFile = fileCotent.toString().split(Cache.CACHE_SPLIT_KEY);
-        return [cacheFile[0], cacheFile[1]];
+        let fileContent = await fs.readFile(fileName);
+        let cacheFile = fileContent.toString().split(Cache.CACHE_SPLIT_KEY);
+        return [cacheFile[0], cacheFile[1], cacheFile[2]];
     }
 }

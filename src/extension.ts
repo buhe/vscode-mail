@@ -37,7 +37,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
 			try {
 				let html = md.render(documentText);
-				vscode.window.showInformationMessage(html);
+				vscode.window.showInformationMessage(JSON.stringify(mail));
+				await reply(mail, html);
 			} catch(e: any) {
 
 			}

@@ -9,6 +9,7 @@ export class Mail extends vscode.TreeItem {
 
     constructor(
         public readonly label: string,
+        public readonly from: string,
         public readonly content: string,
         public readonly type: NodeType,
         public readonly config: any,
@@ -57,16 +58,16 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
                     let imapFace = getImapInstance(element.config[DISPLAY_KEY]);
                     let imap = await imapFace.connect();
                     let boxes = await imap.getBoxesAsync();
-                    let boxNodees: Mail[] = [];
+                    let boxNodes: Mail[] = [];
                     for (const key in boxes) {
-                        boxNodees.push(new Mail(key, '' ,NodeType.Box, element.config, vscode.TreeItemCollapsibleState.Collapsed));
+                        boxNodes.push(new Mail(key, '', '' ,NodeType.Box, element.config, vscode.TreeItemCollapsibleState.Collapsed));
                     }
-                    return Promise.resolve(boxNodees);
+                    return Promise.resolve(boxNodes);
                 case NodeType.Box:
                     let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
                     let messages = await imapFace2.openMail(element.tooltip as string);
                     let mailNodes = messages.map((msg: Message) => {
-                        return new Mail(msg.subject, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
+                        return new Mail(msg.subject, msg.from, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
                     });
                     return Promise.resolve(mailNodes);
                 default:
@@ -77,7 +78,7 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
             if(vendors && Object.keys(vendors).length > 0){
                 let vendorKeys = Object.keys(vendors);
                 let nodes = vendorKeys.map((vendorKey) => {
-                    return new Mail(vendorKey, '', NodeType.Vendor, vendors[vendorKey],vscode.TreeItemCollapsibleState.Collapsed)
+                    return new Mail(vendorKey, '', '', NodeType.Vendor, vendors[vendorKey],vscode.TreeItemCollapsibleState.Collapsed)
                 })
                 return Promise.resolve(nodes);
             } else {
@@ -88,9 +89,9 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
     }
 }
 
-export async function reply(mail: Mail) {
+export async function reply(mail: Mail, html: string) {
     let smtp = getSmtpInstance(mail.config[DISPLAY_KEY]);
-    await smtp.send('bugu1986@gmail.com', 'Test Email Subject', '<h1>Example Plain Text Message Body</h1>')
+    await smtp.send(mail.from, 'Re ' + mail.tooltip, html);
 }
 
 export function openContent(mail: Mail) {
