@@ -26,7 +26,17 @@ export async function activate(context: vscode.ExtensionContext) {
 		await vscode.window.showTextDocument(document);
 	});
 	vscode.commands.registerCommand('vsc-mail.send', async (mail: Mail) => {
-		
+		const editor = vscode.window.activeTextEditor;
+
+		if (editor) {
+			let document = editor.document;
+
+			// Get the document text
+			const documentText = document.getText();
+
+			// DO SOMETHING WITH `documentText`
+			vscode.window.showInformationMessage(documentText);
+		}
 	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
 		Net126.compile(context);
