@@ -6,6 +6,8 @@ A Mail client embedded in Visual Studio Code
 
 ![截屏2022-08-02 15.19.45](https://tva1.sinaimg.cn/large/e6c9d24egy1h4tpoed9saj21i60u079h.jpg)
 
+- 126.com vendor test.
+
 ## Requirements
 
 ## Extension Settings
@@ -24,11 +26,11 @@ A Mail client embedded in Visual Studio Code
 - [x] package this extendsion.
 - [ ] open mail via click.
 - [ ] Notification API.
+- [ ] send markdown.
 
 ## Plan
 
 - [ ] support attachment.
-- [ ] send markdown.
 
 ## Release Notes
 
