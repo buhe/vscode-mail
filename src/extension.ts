@@ -25,6 +25,9 @@ export async function activate(context: vscode.ExtensionContext) {
 		let document = await vscode.workspace.openTextDocument({language: 'markdown'});
 		await vscode.window.showTextDocument(document);
 	});
+	vscode.commands.registerCommand('vsc-mail.send', async (mail: Mail) => {
+		
+	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
 		Net126.compile(context);
 	});
