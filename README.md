@@ -20,7 +20,7 @@ A Mail client embedded in Visual Studio Code
 - [x] cache mail by file.
 - [ ] send mail by smtp.
 - [ ] support gmail.
-- [x] configuratin metadata by gui.
+- [x] configuration metadata by gui.
 - [ ] publish this extendsion.
 - [ ] read/write tags.
 - [ ] event: new mail.
