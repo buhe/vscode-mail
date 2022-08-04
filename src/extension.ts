@@ -1,8 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import Imap from './sdk/imap';
-import { MAIL_KEY } from './strategy';
+import * as MarkdownIt from 'markdown-it';
 import { Net126 } from './strategy/Net126';
 import { Mail, MailProvider, openContent, reply } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
@@ -34,8 +33,17 @@ export async function activate(context: vscode.ExtensionContext) {
 			// Get the document text
 			const documentText = document.getText();
 
+			let md = new MarkdownIt();
+
+			try {
+				let html = md.render(documentText);
+				vscode.window.showInformationMessage(html);
+			} catch(e: any) {
+
+			}
+
 			// DO SOMETHING WITH `documentText`
-			vscode.window.showInformationMessage(documentText);
+			// vscode.window.showInformationMessage(documentText);
 		}
 	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
