@@ -1,6 +1,6 @@
 # VSCode Mail Client
 
-An Mail client embedded in Visual Studio Code
+A Mail client embedded in Visual Studio Code
 
 ## Features
 
