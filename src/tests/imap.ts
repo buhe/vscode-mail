@@ -5,7 +5,8 @@ import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from 
 let { web: { client_id, client_secret, refresh_token } } = require('./client_secret') // the client_secret.json file
 var xoauth2 = require("xoauth2"),
     xoauth2gen;
-var Imap = require('node-imap');
+var Imap = require('node-imap'),
+inspect = require('util').inspect;
 // describe('imap-126', () => {
 //     let imapFace: ImapFace;
 //     let imap: any;
@@ -78,7 +79,45 @@ describe('imap-gmail', () => {
                 tls: true,
                 authTimeout: 10000,
                 debug: console.log,
-            })
+            });
+
+            imap.once('ready', function () {
+                imap.openBox('INBOX', true, function(err: any,box:any){
+                    if (err) throw err;
+                    var f = imap.seq.fetch('1:3', {
+                        bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
+                        struct: true
+                    });
+                    f.on('message', function (msg: any, seqno: any) {
+                        console.log('Message #%d', seqno);
+                        var prefix = '(#' + seqno + ') ';
+                        msg.on('body', function (stream: any, info: any) {
+                            var buffer = '';
+                            stream.on('data', function (chunk: any) {
+                                buffer += chunk.toString('utf8');
+                            });
+                            stream.once('end', function () {
+                                console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
+                            });
+                        });
+                        msg.once('attributes', function (attrs: any) {
+                            console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+                        });
+                        msg.once('end', function () {
+                            console.log(prefix + 'Finished');
+                        });
+                    });
+                });
+            });
+
+            imap.once('error', function (err: any) {
+                console.log(err);
+                // reject(err);
+            });
+
+            imap.once('end', function () {
+                console.log('Connection ended');
+            });
 
             imap.connect();
         });
