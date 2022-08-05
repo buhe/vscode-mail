@@ -30,6 +30,7 @@ A Mail client embedded in Visual Studio Code
 - [x] open mail via click.
 - [ ] Notification API.
 - [x] send markdown.
+- [ ] refresh tree after added mail vendor.
 
 ## Plan
 
