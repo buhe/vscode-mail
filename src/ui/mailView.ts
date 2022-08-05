@@ -3,7 +3,51 @@ import * as path from 'path';
 import {Message, NodeType} from '../sdk/imap';
 import { createImapInstance, createSmtpInstance, getImapInstance, getSmtpInstance } from '../sdk/holder';
 import { DISPLAY_KEY, MAIL_KEY } from '../strategy';
-import ImapFace from '../sdk/imap';
+
+export class Vendor extends vscode.TreeItem {
+
+    constructor(
+        public readonly label: string,
+        public readonly type: NodeType,
+        public readonly config: any,
+        public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+        public readonly command?: vscode.Command,
+    ) {
+        super(label, collapsibleState);
+
+        this.tooltip = this.label;
+        this.description = '';
+    }
+
+    iconPath = {
+        light: path.join(__filename, '..', '..', 'images', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'mail.svg')
+    };
+
+}
+
+export class MailBox extends vscode.TreeItem {
+
+    constructor(
+        public readonly label: string,
+        public readonly type: NodeType,
+        public readonly config: any,
+        public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+        public readonly command?: vscode.Command,
+    ) {
+        super(label, collapsibleState);
+
+        this.tooltip = this.label;
+        this.description = '';
+    }
+
+    iconPath = {
+        light: path.join(__filename, '..', '..', 'images', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'mail.svg')
+    };
+
+}
+
 
 export class Mail extends vscode.TreeItem {
 
@@ -35,25 +79,24 @@ export class Mail extends vscode.TreeItem {
 }
 
 
-export class MailProvider implements vscode.TreeDataProvider<Mail> {
-    // private imap: any;
-    private _onDidChangeTreeData: vscode.EventEmitter<Mail | undefined | void> = new vscode.EventEmitter<Mail | undefined | void>();
-    readonly onDidChangeTreeData: vscode.Event<Mail | undefined | void> = this._onDidChangeTreeData.event;
+export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
+    private _onDidChangeTreeData = new vscode.EventEmitter<vscode.TreeItem | undefined>();
+    readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
     constructor(private context: vscode.ExtensionContext) {
         
     }
 
     refresh(): void {
-        this._onDidChangeTreeData.fire();
+        this._onDidChangeTreeData.fire(undefined);
     }
 
-    getTreeItem(element: Mail): vscode.TreeItem {
+    getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
         return element;
     }
 
-    async getChildren(element?: Mail): Promise<Mail[]> {
-        vscode.window.showInformationMessage('load tree from vsc-mail!');
+    async getChildren(element?: Mail): Promise<vscode.TreeItem[]> {
+        // vscode.window.showInformationMessage('load tree from vsc-mail!');
         if (element) {
             switch (element.type) {
                 case NodeType.Vendor:
@@ -62,9 +105,9 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
                     let imapFace = getImapInstance(element.config[DISPLAY_KEY]);
                     let imap = await imapFace.connect();
                     let boxes = await imap.getBoxesAsync();
-                    let boxNodes: Mail[] = [];
+                    let boxNodes: MailBox[] = [];
                     for (const key in boxes) {
-                        boxNodes.push(new Mail(key, '', '' ,NodeType.Box, element.config, vscode.TreeItemCollapsibleState.Collapsed));
+                        boxNodes.push(new MailBox(key ,NodeType.Box, element.config, vscode.TreeItemCollapsibleState.Collapsed));
                     }
                     return Promise.resolve(boxNodes);
                 case NodeType.Box:
@@ -82,7 +125,7 @@ export class MailProvider implements vscode.TreeDataProvider<Mail> {
             if(vendors && Object.keys(vendors).length > 0){
                 let vendorKeys = Object.keys(vendors);
                 let nodes = vendorKeys.map((vendorKey) => {
-                    return new Mail(vendorKey, '', '', NodeType.Vendor, vendors[vendorKey],vscode.TreeItemCollapsibleState.Collapsed)
+                    return new Vendor(vendorKey, NodeType.Vendor, vendors[vendorKey],vscode.TreeItemCollapsibleState.Collapsed)
                 })
                 return Promise.resolve(nodes);
             } else {
