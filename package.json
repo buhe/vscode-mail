@@ -56,7 +56,8 @@
 				{
 					"command": "vsc-mail.openContent",
 					"when": "false"
-				}],
+				}
+			],
 			"view/title": [
 				{
 					"command": "vsc-mail.setupMail",
@@ -138,6 +139,7 @@
 		"markdown-it": "^13.0.1",
 		"node-imap": "github:buhe/node-imap",
 		"nodemailer": "^6.7.7",
-		"util": "^0.12.4"
+		"util": "^0.12.4",
+		"xoauth2": "^1.2.0"
 	}
 }
