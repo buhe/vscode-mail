@@ -21,7 +21,7 @@ class ImapFace {
             port: config[IMAP_PORT_KEY],
             tls: true,
             tlsOptions: { servername: config[IMAP_SERVER_KEY] },
-            // debug: console.log,
+            debug: console.log,
             id: {
                 name: 'vsc-mail',
                 version: '1.0.0',
