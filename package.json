@@ -37,12 +37,18 @@
 			{
 				"command": "vsc-mail.reply",
 				"title": "reply",
-				"icon": "images/reply.svg"
+				"icon": {
+					"light": "images/light/reply.svg",
+					"dark": "images/dark/reply.svg"
+				}
 			},
 			{
 				"command": "vsc-mail.send",
 				"title": "send",
-				"icon": "images/send.svg"
+				"icon": {
+					"light": "images/light/send.svg",
+					"dark": "images/dark/send.svg"
+				}
 			}
 		],
 		"menus": {

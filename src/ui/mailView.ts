@@ -20,8 +20,8 @@ export class Vendor extends vscode.TreeItem {
     }
 
     iconPath = {
-        light: path.join(__filename, '..', '..', 'images', 'mail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'mail.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     };
 
 }
@@ -42,8 +42,8 @@ export class MailBox extends vscode.TreeItem {
     }
 
     iconPath = {
-        light: path.join(__filename, '..', '..', 'images', 'mail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'mail.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     };
 
 }
@@ -71,8 +71,8 @@ export class Mail extends vscode.TreeItem {
     }
 
     iconPath = {
-        light: path.join(__filename, '..', '..', 'images', 'mail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'mail.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     };
 
     contextValue = 'mail';
