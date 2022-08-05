@@ -26,7 +26,7 @@ A Mail client embedded in Visual Studio Code
 - [ ] read/write tags.
 - [ ] event: new mail.
 - [x] package this extension.
-- [ ] open mail via click.
+- [x] open mail via click.
 - [ ] Notification API.
 - [x] send markdown.
 

@@ -20,6 +20,10 @@ export class Mail extends vscode.TreeItem {
 
         this.tooltip = this.label;
         this.description = '';
+        this.command = { command: 'vsc-mail.openContent', title: 'open', arguments: [label, content] };
+        // if (!abstract.read) {
+        //     this.iconPath = new vscode.ThemeIcon('circle-outline');
+        // }
     }
 
     iconPath = {
@@ -94,14 +98,14 @@ export async function reply(mail: Mail, html: string) {
     await smtp.send(mail.from, 'Re ' + mail.tooltip, html);
 }
 
-export function openContent(mail: Mail) {
+export function openContent(subject: string, content: string) {
     const panel = vscode.window.createWebviewPanel(
-        mail.tooltip as string,
-        mail.tooltip as string,
+        subject as string,
+        subject as string,
         vscode.ViewColumn.One,
         {}
     );
 
     // 设置HTML内容
-    panel.webview.html = mail.content;
+    panel.webview.html = content;
 }

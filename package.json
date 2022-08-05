@@ -44,6 +44,11 @@
 			}
 		],
 		"menus": {
+			"commandPalette": [
+				{
+					"command": "vsc-mail.openContent",
+					"when": "false"
+				}],
 			"view/title": [
 				{
 					"command": "vsc-mail.setupMail",
@@ -52,11 +57,6 @@
 				}
 			],
 			"view/item/context": [
-				{
-					"command": "vsc-mail.openContent",
-					"when": "view == mail && viewItem == mail",
-					"group": "inline"
-				},
 				{
 					"command": "vsc-mail.reply",
 					"when": "view == mail && viewItem == mail",

@@ -77,9 +77,10 @@ class ImapFace {
                     // 1
                     console.log(prefix+ '1 ' + JSON.stringify(info));
                     mail = await simpleParser(stream);
+                    mail.from = mail.from['value'][0]['address'];
                     // 3
                     // console.log(prefix + JSON.stringify(mail) + '3 Parsed');
-                    await out.cache.setCache(uid, mail.subject, mail.from['value'][0]['address'], mail.html);
+                    await out.cache.setCache(uid, mail.subject, mail.from, mail.html);
                     parsed = true;
                 });
                 msg.once('attributes', async function (attrs: any) {
@@ -104,7 +105,7 @@ class ImapFace {
                         await delay(100);
                     }
                     console.log(prefix + 'Finished');
-                    mails.push(new Message(mail.subject, mail.from['value'][0]['address'], mail.html, NodeType.Mail, []))
+                    mails.push(new Message(mail.subject, mail.from, mail.html, NodeType.Mail, []))
                 });
             });
             f.once('end', async () => {
