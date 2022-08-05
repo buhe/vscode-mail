@@ -36,11 +36,13 @@
 			},
 			{
 				"command": "vsc-mail.reply",
-				"title": "reply"
+				"title": "reply",
+				"icon": "images/reply.svg"
 			},
 			{
 				"command": "vsc-mail.send",
-				"title": "send"
+				"title": "send",
+				"icon": "images/send.svg"
 			}
 		],
 		"menus": {
