@@ -4,7 +4,7 @@ A Mail client embedded in Visual Studio Code
 
 ## Features
 
-![Features](https://tva1.sinaimg.cn/large/e6c9d24egy1h4tpoed9saj21i60u079h.jpg)
+![Features](https://tva1.sinaimg.cn/large/e6c9d24egy1h4vxxwaxpij219d0u0jx0.jpg)
 
 - Support IMAP and SMTP protocol.
 - 126.com vendor test pass.
