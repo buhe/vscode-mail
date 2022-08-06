@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import ImapFace from '../sdk/imap';
 import { assert } from 'chai';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
-import { getToken } from '../sdk/gmail/token';
+import { getCode, getToken } from '../sdk/gmail/token';
 let { web: { client_id, client_secret, refresh_token } } = require('./client_secret') // the client_secret.json file
 var xoauth2 = require("xoauth2"),
     xoauth2gen;
@@ -55,6 +55,9 @@ describe('imap-gmail', () => {
     after(function () {
         // imap.end();
     });
+    it('getCode', async () => {
+        getCode();
+    })
     it('getToken', async () => {
         // 1. https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcode&prompt=consent&response_type=code&client_id=106957458440-ectevvqgch5o9pq0jm8lrbfeab9nu23d.apps.googleusercontent.com&scope=https%3A%2F%2Fmail.google.com%2F+https%3A%2F%2Fmail.google.com%2F&access_type=offline
         // 2. http://localhost:3000/code?code=4/0AdQt8qi-2r6IEG5ribqzQ5xn48EtektGPRlrL9PJ-C7IMdLU35nqUZMt83pWM2aRvMJkIg&scope=https://mail.google.com/ getCode
@@ -69,8 +72,8 @@ describe('imap-gmail', () => {
 }
         */
 
-        let token = await getToken('bugu1986@gmail.com', '1//04rH8M1yvCjp4CgYIARAAGAQSNwF-L9IrYbwlJTyGyS-nFMGinHDJm3sXrKx8WlfRTz4x9uCFAn9R_GELxKZFyu9ZQC5CZETaM3o');
-        console.log(token);
+        // let token = await getToken('bugu1986@gmail.com', '1//04rH8M1yvCjp4CgYIARAAGAQSNwF-L9IrYbwlJTyGyS-nFMGinHDJm3sXrKx8WlfRTz4x9uCFAn9R_GELxKZFyu9ZQC5CZETaM3o');
+        // console.log(token);
     })
     it('getBoxes', async () => {
         // let b = await imap.getBoxesAsync();
