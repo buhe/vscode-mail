@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import ImapFace from '../sdk/imap';
 import { assert } from 'chai';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
-import getToken from '../sdk/gmail/token';
+import { getToken } from '../sdk/gmail/token';
 let { web: { client_id, client_secret, refresh_token } } = require('./client_secret') // the client_secret.json file
 var xoauth2 = require("xoauth2"),
     xoauth2gen;
