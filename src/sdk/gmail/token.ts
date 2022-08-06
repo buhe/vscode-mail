@@ -1,5 +1,5 @@
 const bluebird = require('bluebird');
-let { web: { client_id, client_secret } } = require('./client_secret');
+let { installed: { client_id, client_secret } } = require('./client_secret');
 var xoauth2 = require("xoauth2");
 export async function getToken(user: string, refresh_token: string) {
     let xoauth2gen = xoauth2.createXOAuth2Generator({
