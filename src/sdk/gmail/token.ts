@@ -1,11 +1,11 @@
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_GMAIL } from "../../strategy";
-
+import * as vscode from 'vscode';
 const bluebird = require('bluebird');
 // let { installed: { client_id, client_secret } } = require('./client_secret');
 var xoauth2 = require("xoauth2");
 const http = require("http"); 
 const url = require('url');
-const fetch = require('node-fetch');         
+import fetch from 'node-fetch';         
 const host = 'localhost';
 const port = 3000;
 
@@ -53,8 +53,9 @@ export async function saveMeta(display: string, user: string, context: any) {
 
         let formBodyStr = formBody.join("&");
         // console.log(formBodyStr);
+        console.log('start fetch google.');
+        vscode.window.showInformationMessage('start fetch google.');
         geted = true;
-
         let response = await fetch('https://oauth2.googleapis.com/token', {
             method: 'POST',
             headers: {
@@ -65,6 +66,12 @@ export async function saveMeta(display: string, user: string, context: any) {
         const data = await response.json();
 
         // console.log(data);
+        console.log("fetchd google.");
+        vscode.window.showInformationMessage('fetchd google.');
+
+        if (!data['refresh_token']) {
+            return;
+        }
         /**
          * POST /token HTTP/1.1
 Host: oauth2.googleapis.com
@@ -85,6 +92,8 @@ code=4%2F0AdQt8qit1Qkn2olvMsIRORcmvYe7u4lbFLVXdbrKXOwnRyUvwZiOyuuh-Lqnq6xJs3exHA
             */
         // save user and refresh token to vsc
         let oauth2 = await getToken(user, data['refresh_token']);
+        console.log('get token.');
+        vscode.window.showInformationMessage('get token.');
         _saveMeta(display, user, oauth2, context)
         res.writeHead(200);
         res.end();
@@ -115,7 +124,7 @@ function _saveMeta(display: string, user: string, token: string, context: any) {
         context.globalState.update(MAIL_KEY, merge);
     } catch(e){
         // for unit test
-        console.log('%s %s %s', display, user, token);
+        console.log('!!!%s %s %s', display, user, token);
     }
     
 }
