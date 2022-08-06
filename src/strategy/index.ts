@@ -8,3 +8,8 @@ export const MAIL_KEY = 'mail';
 export const DISPLAY_KEY = "display";
 export const USER_KEY = 'user';
 export const PASS_KEY = 'pass';
+export const TOKEN_KEY = 'token';
+
+export enum VendorType {
+    Gmail,Net126
+}

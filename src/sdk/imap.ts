@@ -1,5 +1,5 @@
 import * as Imap from 'node-imap';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VendorType } from '../strategy';
 import Cache from './cache';
 const bluebird = require('bluebird');
 const simpleParser = require('mailparser').simpleParser;
@@ -13,22 +13,44 @@ class ImapFace {
     /**
      * constructor
      */
-    public constructor(config: any) {
-        this.imap = bluebird.promisifyAll(new Imap({
-            user: config[USER_KEY],
-            password: config[PASS_KEY],
-            host: config[IMAP_SERVER_KEY],
-            port: config[IMAP_PORT_KEY],
-            tls: true,
-            tlsOptions: { servername: config[IMAP_SERVER_KEY] },
-            debug: console.log,
-            id: {
-                name: 'vsc-mail',
-                version: '1.0.0',
-                vendor: "buhe",
-                "support-email": config[USER_KEY],
-            },
-        } as any));
+    public constructor(type: VendorType, config: any) {
+        switch (type) {
+            case VendorType.Gmail:
+                this.imap = bluebird.promisifyAll(new Imap({
+                    xoauth2: config[TOKEN_KEY],
+                    host: config[IMAP_SERVER_KEY],
+                    port: config[IMAP_PORT_KEY],
+                    tls: true,
+                    tlsOptions: { servername: config[IMAP_SERVER_KEY] },
+                    debug: console.log,
+                    id: {
+                        name: 'vsc-mail',
+                        version: '1.0.0',
+                        vendor: "buhe",
+                        "support-email": config[USER_KEY],
+                    },
+                } as any));
+                break;
+        
+            case VendorType.Net126:
+                this.imap = bluebird.promisifyAll(new Imap({
+                    user: config[USER_KEY],
+                    password: config[PASS_KEY],
+                    host: config[IMAP_SERVER_KEY],
+                    port: config[IMAP_PORT_KEY],
+                    tls: true,
+                    tlsOptions: { servername: config[IMAP_SERVER_KEY] },
+                    debug: console.log,
+                    id: {
+                        name: 'vsc-mail',
+                        version: '1.0.0',
+                        vendor: "buhe",
+                        "support-email": config[USER_KEY],
+                    },
+                } as any));
+                break;
+        }
+       
         this.cache = new Cache(config[DISPLAY_KEY]);
     }
     /**
