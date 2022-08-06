@@ -10,6 +10,5 @@ export const USER_KEY = 'user';
 export const PASS_KEY = 'pass';
 export const TOKEN_KEY = 'token';
 
-export enum VendorType {
-    Gmail,Net126
-}
+export const V_126 = "126";
+export const V_GMAIL = "gmail";

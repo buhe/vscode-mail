@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import ImapFace from '../sdk/imap';
 import { assert } from 'chai';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, USER_KEY } from '../strategy';
-import { getCode, getToken } from '../sdk/gmail/token';
+import { saveMeta, getToken } from '../sdk/gmail/token';
 // let { web: { client_id, client_secret, refresh_token } } = require('./client_secret') // the client_secret.json file
 var xoauth2 = require("xoauth2"),
     xoauth2gen;
@@ -55,8 +55,8 @@ describe('imap-gmail', () => {
     after(function () {
         // imap.end();
     });
-    it('getCode', async () => {
-        getCode();
+    it('saveMeta', async () => {
+        await saveMeta('gmail', 'bugu1986@gmail.com', {} as any);
     })
     it('getToken', async () => {
         // 1. https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcode&prompt=consent&response_type=code&client_id=106957458440-ectevvqgch5o9pq0jm8lrbfeab9nu23d.apps.googleusercontent.com&scope=https%3A%2F%2Fmail.google.com%2F+https%3A%2F%2Fmail.google.com%2F&access_type=offline

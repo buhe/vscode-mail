@@ -5,6 +5,7 @@ import * as MarkdownIt from 'markdown-it';
 import { Net126 } from './strategy/Net126';
 import { Mail, MailProvider, openContent, reply } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
+import { Gmail } from './strategy/Gmail';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -54,6 +55,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
 		Net126.compile(context);
 	});
+	vscode.commands.registerCommand('vsc-mail.setupGmail', () => {
+		Gmail.compile(context);
+	});
 	let disposable = vscode.commands.registerCommand('vsc-mail.setupMail', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
@@ -68,7 +72,7 @@ export async function activate(context: vscode.ExtensionContext) {
 						label: `126`,
 					},
 					{
-						label: `GMail`,
+						label: `Gmail`,
 					}
 				],
 			});
@@ -76,7 +80,8 @@ export async function activate(context: vscode.ExtensionContext) {
 				case '126':
 					vscode.commands.executeCommand('vsc-mail.setup126');
 					break;
-				case 'GMail':
+				case 'Gmail':
+					vscode.commands.executeCommand('vsc-mail.setupGmail');
 					break;
 			}
 

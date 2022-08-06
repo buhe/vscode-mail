@@ -1,5 +1,5 @@
 import * as Imap from 'node-imap';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VendorType } from '../strategy';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from '../strategy';
 import Cache from './cache';
 const bluebird = require('bluebird');
 const simpleParser = require('mailparser').simpleParser;
@@ -13,9 +13,9 @@ class ImapFace {
     /**
      * constructor
      */
-    public constructor(type: VendorType, config: any) {
-        switch (type) {
-            case VendorType.Gmail:
+    public constructor(config: any) {
+        switch (config[VENDOR_KEY]) {
+            case V_GMAIL:
                 this.imap = bluebird.promisifyAll(new Imap({
                     xoauth2: config[TOKEN_KEY],
                     host: config[IMAP_SERVER_KEY],
@@ -32,7 +32,7 @@ class ImapFace {
                 } as any));
                 break;
         
-            case VendorType.Net126:
+            case V_126:
                 this.imap = bluebird.promisifyAll(new Imap({
                     user: config[USER_KEY],
                     password: config[PASS_KEY],

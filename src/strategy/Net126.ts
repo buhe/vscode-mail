@@ -1,6 +1,6 @@
 import { MultiStepInput } from "../ui/multiStepInput";
 import * as vscode from 'vscode';
-import { IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, VENDOR_KEY } from ".";
+import { IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, VENDOR_KEY, V_126 } from ".";
 
 export class Net126 {
     /**
@@ -32,7 +32,7 @@ export class Net126 {
                 value: data.pass,
                 prompt: 'Input 126 password, please',
             });
-            data[VENDOR_KEY] = '126';
+            data[VENDOR_KEY] = V_126;
             data[IMAP_SERVER_KEY] = 'imap.126.com';
             data[IMAP_PORT_KEY] = 993;
             data[SMTP_SERVER_KEY] = 'smtp.126.com';
