@@ -92,7 +92,7 @@ class ImapFace {
             let mails: Message[] = [];
             f.on('message', function (msg: any, seqno: any) {
                 var prefix = '(#' + seqno + ') ';
-                let mail: any;
+                let mail: any = {};
                 let uid: number;
                 let parsed = false;
                 msg.on('body',async function (stream: any, info: any) {
