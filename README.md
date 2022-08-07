@@ -32,7 +32,7 @@ A Mail client embedded in Visual Studio Code
 - [ ] Notification API.
 - [x] send markdown.
 - [ ] refresh tree after added mail vendor.
-- [ ] support delete mail vendor.
+- [x] support delete mail vendor.
 
 ## Plan
 
