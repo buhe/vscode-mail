@@ -24,6 +24,8 @@ export class Vendor extends vscode.TreeItem {
         dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     };
 
+    contextValue = 'vendor';
+
 }
 
 export class MailBox extends vscode.TreeItem {
@@ -134,6 +136,12 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
         }
 
     }
+}
+
+export function deleteVendor(context: vscode.ExtensionContext, display: string) {
+    let old = context.globalState.get(MAIL_KEY) as any;
+    delete old[display];
+    context.globalState.update(MAIL_KEY, old);
 }
 
 export async function reply(mail: Mail, html: string) {

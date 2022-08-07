@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import * as MarkdownIt from 'markdown-it';
 import { Net126 } from './strategy/Net126';
-import { Mail, MailProvider, openContent, reply } from './ui/mailView';
+import { deleteVendor, Mail, MailProvider, openContent, reply, Vendor } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 import { Gmail } from './strategy/Gmail';
 
@@ -57,6 +57,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	});
 	vscode.commands.registerCommand('vsc-mail.setupGmail', () => {
 		Gmail.compile(context);
+	});
+	vscode.commands.registerCommand('vsc-mail.deleteVendor', (vendor: Vendor) => {
+		deleteVendor(context, vendor.label);
 	});
 	let disposable = vscode.commands.registerCommand('vsc-mail.setupMail', () => {
 		// The code you place here will be executed every time your command is executed
