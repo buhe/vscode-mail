@@ -27,8 +27,9 @@ export function getImapInstance(display: string): ImapFace {
     }
 }
 
-export function createImapInstance(config: any) {
-    let imapFace = new ImapFace(config);
+export async function createImapInstance(config: any) {
+    let imapFace = new ImapFace();
+    await imapFace.init(config);
     imapPools.set(config[DISPLAY_KEY], imapFace);
     return imapFace;
 }

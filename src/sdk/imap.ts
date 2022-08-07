@@ -1,6 +1,7 @@
 import * as Imap from 'node-imap';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from '../strategy';
 import Cache from './cache';
+import { getToken } from './gmail/token';
 const bluebird = require('bluebird');
 const simpleParser = require('mailparser').simpleParser;
 function delay(ms: number) {
@@ -9,15 +10,23 @@ function delay(ms: number) {
 const LOAD_MAIL = 10;
 class ImapFace {
     private imap: any;
-    private cache: Cache;
+    private cache?: Cache;
     /**
      * constructor
      */
-    public constructor(config: any) {
+    public constructor() {
+        
+    }
+
+    /**
+     * init
+     */
+    public async init(config: any) {
         switch (config[VENDOR_KEY]) {
             case V_GMAIL:
+                let token = await getToken(config[USER_KEY], config[TOKEN_KEY]);
                 this.imap = bluebird.promisifyAll(new Imap({
-                    xoauth2: config[TOKEN_KEY],
+                    xoauth2: token,
                     host: config[IMAP_SERVER_KEY],
                     port: config[IMAP_PORT_KEY],
                     tls: true,
@@ -30,8 +39,9 @@ class ImapFace {
                         "support-email": config[USER_KEY],
                     },
                 } as any));
+                
                 break;
-        
+
             case V_126:
                 this.imap = bluebird.promisifyAll(new Imap({
                     user: config[USER_KEY],
@@ -50,28 +60,29 @@ class ImapFace {
                 } as any));
                 break;
         }
-       
+
         this.cache = new Cache(config[DISPLAY_KEY]);
     }
     /**
      * connect
      */
     public async connect(): Promise<any> {
+        let out = this;
         return new Promise((resolve,reject) => {
-            let out = this;
-            this.imap.once('ready', function () {
+            
+            out.imap.once('ready', function () {
                 resolve(out.imap);
             });
 
-            this.imap.once('error', function (err: any) {
+            out.imap.once('error', function (err: any) {
                 console.log(err);
                 reject(err);
             });
 
-            this.imap.once('end', function () {
+            out.imap.once('end', function () {
                 console.log('Connection ended');
             });
-            this.imap.connect();
+            out.imap.connect();
         })
         
     }
@@ -88,7 +99,7 @@ class ImapFace {
         let out = this;
         const mailCounts = box.messages.total + 1 - start;
         return new Promise((resolve,reject) => {
-            let f = this.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ''});
+            let f = out.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ''});
             let mails: Message[] = [];
             f.on('message', function (msg: any, seqno: any) {
                 var prefix = '(#' + seqno + ') ';
@@ -102,7 +113,7 @@ class ImapFace {
                     mail.from = mail.from['value'][0]['address'];
                     // 3
                     // console.log(prefix + JSON.stringify(mail) + '3 Parsed');
-                    await out.cache.setCache(uid, mail.subject, mail.from, mail.html);
+                    await out.cache!.setCache(uid, mail.subject, mail.from, mail.html);
                     parsed = true;
                 });
                 msg.once('attributes', async function (attrs: any) {
@@ -111,8 +122,8 @@ class ImapFace {
                     console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // uid from attrs
                     // check cache, set parsed to true, read cache to mail object.
-                    if(await out.cache.hasCache(uid)) {
-                        let c = await out.cache.getCache(uid);
+                    if(await out.cache!.hasCache(uid)) {
+                        let c = await out.cache!.getCache(uid);
                         mail.subject = c[0];
                         mail.from = c[1];
                         mail.html = c[2];

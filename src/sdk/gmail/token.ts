@@ -17,7 +17,8 @@ export async function getToken(user: string, refresh_token: string) {
         user: user, // the email address
         clientId: client_id,
         clientSecret: client_secret,
-        refreshToken: refresh_token
+        refreshToken: refresh_token,
+        scope: 'https://mail.google.com/',
     });
     xoauth2gen = bluebird.promisifyAll(xoauth2gen);
     return await xoauth2gen.getTokenAsync();
@@ -91,10 +92,10 @@ code=4%2F0AdQt8qit1Qkn2olvMsIRORcmvYe7u4lbFLVXdbrKXOwnRyUvwZiOyuuh-Lqnq6xJs3exHA
 }
             */
         // save user and refresh token to vsc
-        let oauth2 = await getToken(user, data['refresh_token']);
+        // let oauth2 = await getToken(user, );
         console.log('get token.');
         vscode.window.showInformationMessage('get token.');
-        _saveMeta(display, user, oauth2, context)
+        _saveMeta(display, user, data['refresh_token'], context)
         res.writeHead(200);
         res.end();
         server.close(function () { console.log('Server closed!'); });
