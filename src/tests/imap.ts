@@ -7,7 +7,8 @@ describe('imap-126', () => {
     let imapFace: ImapFace;
     let imap: any;
     before(async function () {
-        imapFace = new ImapFace({
+        imapFace = new ImapFace();
+        await imapFace.init({
             [IMAP_SERVER_KEY]: 'imap.126.com',
             [IMAP_PORT_KEY]: 993,
             [USER_KEY]: 'bugu1986@126.com',
@@ -38,11 +39,13 @@ describe('imap-gmail', () => {
     let imapFace: ImapFace;
     let imap: any;
     before(async function () {
-        imapFace = new ImapFace({
+        let token = await getToken('bugu1986@gmail.com', '');
+        imapFace = new ImapFace();
+        await imapFace.init({
             [IMAP_SERVER_KEY]: 'gmail.126.com',
             [IMAP_PORT_KEY]: 993,
             [USER_KEY]: 'bugu1986@gmail.com',
-            [TOKEN_KEY]: '',
+            [TOKEN_KEY]: token,
             [DISPLAY_KEY]: 'mygmail',
         });
         imap = await imapFace.connect();
@@ -52,11 +55,6 @@ describe('imap-gmail', () => {
     });
     it('saveMeta', async () => {
         await saveMeta('gmail', 'bugu1986@gmail.com', {} as any);
-    })
-    it('getToken', async () => {
-        let token = await getToken('bugu1986@gmail.com', '');
-        console.log(token);
-        assert(token.length > 0);
     })
     it('getBoxes', async () => {
         let b = await imap.getBoxesAsync();
