@@ -138,10 +138,11 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     }
 }
 
-export function deleteVendor(context: vscode.ExtensionContext, display: string) {
+export function deleteVendor(context: vscode.ExtensionContext, mailProvider: MailProvider, display: string) {
     let old = context.globalState.get(MAIL_KEY) as any;
     delete old[display];
     context.globalState.update(MAIL_KEY, old);
+    mailProvider.refresh();
 }
 
 export async function reply(mail: Mail, html: string) {

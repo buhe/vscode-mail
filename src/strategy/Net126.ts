@@ -1,12 +1,13 @@
 import { MultiStepInput } from "../ui/multiStepInput";
 import * as vscode from 'vscode';
 import { IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, VENDOR_KEY, V_126 } from ".";
+import { MailProvider } from "../ui/mailView";
 
 export class Net126 {
     /**
      * compile
      */
-    public static compile(context: vscode.ExtensionContext) {
+    public static compile(context: vscode.ExtensionContext, mailProvider: MailProvider) {
         let data: any = {};
         MultiStepInput.run(async (input) => {
             data.display = await input.showInputBox({
@@ -42,6 +43,7 @@ export class Net126 {
             let n = { [data.display]: data };
             let merge = { ...n, ...old };
             context.globalState.update(MAIL_KEY, merge);
+            mailProvider.refresh();
         });
     }
 

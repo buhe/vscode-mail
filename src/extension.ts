@@ -53,13 +53,13 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
-		Net126.compile(context);
+		Net126.compile(context, mailProvider);
 	});
 	vscode.commands.registerCommand('vsc-mail.setupGmail', () => {
-		Gmail.compile(context);
+		Gmail.compile(context, mailProvider);
 	});
 	vscode.commands.registerCommand('vsc-mail.deleteVendor', (vendor: Vendor) => {
-		deleteVendor(context, vendor.label);
+		deleteVendor(context, mailProvider, vendor.label);
 	});
 	let disposable = vscode.commands.registerCommand('vsc-mail.setupMail', () => {
 		// The code you place here will be executed every time your command is executed
