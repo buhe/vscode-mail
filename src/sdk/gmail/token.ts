@@ -114,7 +114,7 @@ function _saveMeta(display: string, user: string, token: string, context: any) {
         data[IMAP_SERVER_KEY] = 'imap.gmail.com';
         data[IMAP_PORT_KEY] = 993;
         data[SMTP_SERVER_KEY] = 'smtp.gmail.com';
-        data[SMTP_PORT_KEY] = 994;
+        data[SMTP_PORT_KEY] = 465;
         data[DISPLAY_KEY] = display;
         data[USER_KEY] = user;
         data[TOKEN_KEY] = token;

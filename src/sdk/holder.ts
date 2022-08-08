@@ -13,8 +13,9 @@ export function getSmtpInstance(display: string): SmtpFace {
     }
 }
 
-export function createSmtpInstance(config: any) {
+export async function createSmtpInstance(config: any) {
     let smtpFace = new SmtpFace(config);
+    await smtpFace.init();
     smtpPools.set(config[DISPLAY_KEY], smtpFace);
     return smtpFace;
 }

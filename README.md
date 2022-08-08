@@ -24,6 +24,9 @@ A Mail client embedded in Visual Studio Code
 - [x] support gmail.
 - [ ] support other mail vendor.
 - [x] configuration metadata by gui.
+- [ ] list mail by local file.
+    - [ ] read newst mail from imap server into loacl file.
+    - [ ] list mail only by local file.
 - [ ] publish this extension.
 - [ ] read/write tags.
 - [ ] event: new mail.
@@ -34,9 +37,11 @@ A Mail client embedded in Visual Studio Code
 - [x] refresh tree after added mail vendor.
 - [x] support delete mail vendor.
 
-## Plan
+## Enhancement
 
 - [ ] support attachment.
+- [ ] confime before delete vendor.
+- [ ] send new mail,not only reply.
 
 ## Release Notes
 

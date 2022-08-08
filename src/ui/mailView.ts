@@ -103,7 +103,7 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
             switch (element.type) {
                 case NodeType.Vendor:
                     await createImapInstance(element.config);
-                    createSmtpInstance(element.config);
+                    await createSmtpInstance(element.config);
                     let imapFace = getImapInstance(element.config[DISPLAY_KEY]);
                     let imap = await imapFace.connect();
                     let boxes = await imap.getBoxesAsync();
