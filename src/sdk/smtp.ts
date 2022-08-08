@@ -1,9 +1,7 @@
 import * as nodemailer from 'nodemailer';
 import SMTPTransport = require('nodemailer/lib/smtp-transport');
 import { PASS_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from '../strategy';
-import { getToken } from './gmail/token';
-const client_id = '106957458440-ectevvqgch5o9pq0jm8lrbfeab9nu23d.apps.googleusercontent.com';
-const client_secret = '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';
+import { client_id, client_secret, getToken } from './gmail/token';
 export default class SmtpFace {
     private transporter?: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
     constructor(private config: any) {
@@ -67,5 +65,12 @@ export default class SmtpFace {
             subject: subject,
             html: html
         });
+    }
+
+    /**
+     * close
+     */
+    public close() {
+        this.transporter!.close();
     }
 }

@@ -9,8 +9,8 @@ import fetch from 'node-fetch';
 const host = 'localhost';
 const port = 3000;
 
-const client_id = '106957458440-ectevvqgch5o9pq0jm8lrbfeab9nu23d.apps.googleusercontent.com';
-const client_secret = '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';
+export const client_id = '106957458440-ectevvqgch5o9pq0jm8lrbfeab9nu23d.apps.googleusercontent.com';
+export const client_secret = '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';
 
 export async function getToken(user: string, refresh_token: string) {
     let xoauth2gen = xoauth2.createXOAuth2Generator({

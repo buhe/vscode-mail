@@ -32,5 +32,6 @@ describe('smtp gmail', () => {
         });
         await smtp.init();
         await smtp.send('bugu1986@126.com', 'Test Email Subject123', '<h1>Example Plain Text Message Body</h1>');
+        smtp.close();
     })
 })
