@@ -30,8 +30,8 @@
 				"command": "vsc-mail.deleteVendor",
 				"title": "delete mail",
 				"icon": {
-					"light": "images/light/add.svg",
-					"dark": "images/dark/add.svg"
+					"light": "images/light/remove.svg",
+					"dark": "images/dark/remove.svg"
 				}
 			},
 			{
