@@ -42,6 +42,7 @@ A Mail client embedded in Visual Studio Code
 - [ ] support attachment.
 - [ ] confime before delete vendor.
 - [ ] send new mail,not only reply.
+- [ ] refresh tree.
 
 ## Release Notes
 
