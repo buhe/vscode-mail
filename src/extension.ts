@@ -89,7 +89,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 
 		});
-		// context.globalState.update(MAIL_KEY, {});
+		mailProvider.refresh();
 		
 	});
 

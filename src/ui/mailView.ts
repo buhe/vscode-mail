@@ -148,6 +148,7 @@ export function deleteVendor(context: vscode.ExtensionContext, mailProvider: Mai
 export async function reply(mail: Mail, html: string) {
     let smtp = getSmtpInstance(mail.config[DISPLAY_KEY]);
     await smtp.send(mail.from, 'Re ' + mail.tooltip, html);
+    smtp.close();
 }
 
 export function openContent(subject: string, content: string) {

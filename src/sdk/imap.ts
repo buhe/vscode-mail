@@ -114,7 +114,7 @@ class ImapFace {
                     mail.from = mail.from['value'][0]['address'];
                     // 3
                     // console.log(prefix + JSON.stringify(mail) + '3 Parsed');
-                    await out.cache!.setCache(uid, mail.subject, mail.from, mail.html);
+                    // await out.cache!.setCache(uid, mail.subject, mail.from, mail.html);
                     parsed = true;
                 });
                 msg.once('attributes', async function (attrs: any) {
@@ -123,13 +123,13 @@ class ImapFace {
                     console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // uid from attrs
                     // check cache, set parsed to true, read cache to mail object.
-                    if(await out.cache!.hasCache(uid)) {
-                        let c = await out.cache!.getCache(uid);
-                        mail.subject = c[0];
-                        mail.from = c[1];
-                        mail.html = c[2];
-                        parsed = true;
-                    }
+                    // if(await out.cache!.hasCache(uid)) {
+                    //     let c = await out.cache!.getCache(uid);
+                    //     mail.subject = c[0];
+                    //     mail.from = c[1];
+                    //     mail.html = c[2];
+                    //     parsed = true;
+                    // }
                     // TODO read/write flags.
                 });
                 msg.once('end', async function () {
