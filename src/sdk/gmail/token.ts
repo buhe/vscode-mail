@@ -1,5 +1,5 @@
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_GMAIL } from "../../strategy";
-import * as vscode from 'vscode';
+// import * as vscode from 'vscode';
 const bluebird = require('bluebird');
 // let { installed: { client_id, client_secret } } = require('./client_secret');
 var xoauth2 = require("xoauth2");
@@ -55,7 +55,7 @@ export async function saveMeta(display: string, user: string, context: any) {
         let formBodyStr = formBody.join("&");
         // console.log(formBodyStr);
         console.log('start fetch google.');
-        vscode.window.showInformationMessage('start fetch google.');
+        // vscode.window.showInformationMessage('start fetch google.');
         geted = true;
         let response = await fetch('https://oauth2.googleapis.com/token', {
             method: 'POST',
@@ -68,7 +68,7 @@ export async function saveMeta(display: string, user: string, context: any) {
 
         // console.log(data);
         console.log("fetchd google.");
-        vscode.window.showInformationMessage('fetchd google.');
+        // vscode.window.showInformationMessage('fetchd google.');
 
         if (!data['refresh_token']) {
             return;
@@ -94,7 +94,7 @@ code=4%2F0AdQt8qit1Qkn2olvMsIRORcmvYe7u4lbFLVXdbrKXOwnRyUvwZiOyuuh-Lqnq6xJs3exHA
         // save user and refresh token to vsc
         // let oauth2 = await getToken(user, );
         console.log('get token.');
-        vscode.window.showInformationMessage('get token.');
+        // vscode.window.showInformationMessage('get token.');
         _saveMeta(display, user, data['refresh_token'], context)
         res.writeHead(200);
         res.end();

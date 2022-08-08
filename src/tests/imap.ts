@@ -1,8 +1,6 @@
-import * as chai from 'chai';
 import ImapFace from '../sdk/imap';
 import { assert } from 'chai';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY } from '../strategy';
-import { saveMeta, getToken } from '../sdk/gmail/token';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from '../strategy';
 describe('imap-126', () => {
     let imapFace: ImapFace;
     let imap: any;
@@ -14,6 +12,7 @@ describe('imap-126', () => {
             [USER_KEY]: 'bugu1986@126.com',
             [PASS_KEY]: 'UMXTDSXKNLBRSSOB',
             [DISPLAY_KEY]: 'my126',
+            [VENDOR_KEY]: V_126,
         });
         imap = await imapFace.connect();
     });
@@ -34,28 +33,34 @@ describe('imap-126', () => {
     })
 })
 
+function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+delay(5 * 1000);
+
 
 describe('imap-gmail', () => {
     let imapFace: ImapFace;
     let imap: any;
     before(async function () {
-        let token = await getToken('bugu1986@gmail.com', '');
         imapFace = new ImapFace();
         await imapFace.init({
-            [IMAP_SERVER_KEY]: 'gmail.126.com',
+            [IMAP_SERVER_KEY]: 'imap.gmail.com',
             [IMAP_PORT_KEY]: 993,
             [USER_KEY]: 'bugu1986@gmail.com',
-            [TOKEN_KEY]: token,
+            [TOKEN_KEY]: '1//0ghvzYaAS5q3BCgYIARAAGBASNwF-L9IrPvBvg7Mbi1shBJMbezvkwLr06cXtmh-GfYMm_j6yBkJkbbAq0kILp5qefQFs6tzeDyo',
             [DISPLAY_KEY]: 'mygmail',
+            [VENDOR_KEY]: V_GMAIL,
         });
         imap = await imapFace.connect();
     });
     after(function () {
         imap.end();
     });
-    it('saveMeta', async () => {
-        await saveMeta('gmail', 'bugu1986@gmail.com', {} as any);
-    })
+    // it('saveMeta', async () => {
+    //     await saveMeta('gmail', 'bugu1986@gmail.com', {} as any);
+    // })
     it('getBoxes', async () => {
         let b = await imap.getBoxesAsync();
         console.log(b);

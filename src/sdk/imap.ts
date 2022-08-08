@@ -24,6 +24,7 @@ class ImapFace {
     public async init(config: any) {
         switch (config[VENDOR_KEY]) {
             case V_GMAIL:
+                // console.log(config[TOKEN_KEY]);
                 let token = await getToken(config[USER_KEY], config[TOKEN_KEY]);
                 this.imap = bluebird.promisifyAll(new Imap({
                     xoauth2: token,
@@ -31,7 +32,7 @@ class ImapFace {
                     port: config[IMAP_PORT_KEY],
                     tls: true,
                     tlsOptions: { servername: config[IMAP_SERVER_KEY] },
-                    debug: console.log,
+                    // debug: console.log,
                     id: {
                         name: 'vsc-mail',
                         version: '1.0.0',
@@ -50,7 +51,7 @@ class ImapFace {
                     port: config[IMAP_PORT_KEY],
                     tls: true,
                     tlsOptions: { servername: config[IMAP_SERVER_KEY] },
-                    debug: console.log,
+                    // debug: console.log,
                     id: {
                         name: 'vsc-mail',
                         version: '1.0.0',
