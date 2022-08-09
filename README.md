@@ -24,9 +24,9 @@ A Mail client embedded in Visual Studio Code
 - [x] support gmail.
 - [ ] support other mail vendor.
 - [x] configuration metadata by gui.
-- [ ] list mail by local file.
-    - [ ] read newst mail from imap server into loacl file.
-    - [ ] list mail only by local file.
+- [x] list mail by local file.
+    - [x] read newst mail from imap server into loacl file.
+    - [x] list mail only by local file.
 - [ ] publish this extension.
 - [ ] read tags.
 - [ ] write tags.
