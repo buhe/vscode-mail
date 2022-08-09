@@ -1,6 +1,5 @@
 import * as Imap from 'node-imap';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from '../strategy';
-import Cache from './cache';
 import { getToken } from './gmail/token';
 const bluebird = require('bluebird');
 const simpleParser = require('mailparser').simpleParser;
@@ -10,7 +9,7 @@ function delay(ms: number) {
 const LOAD_MAIL = 10;
 class ImapFace {
     private imap: any;
-    private cache?: Cache;
+    // private cache?: Cache;
     /**
      * constructor
      */
@@ -62,7 +61,7 @@ class ImapFace {
                 break;
         }
 
-        this.cache = new Cache(config[DISPLAY_KEY]);
+        // this.cache = new Cache(config[DISPLAY_KEY]);
     }
     /**
      * connect
@@ -122,6 +121,8 @@ class ImapFace {
                     console.log(prefix + '2 Attributes: %s', JSON.stringify(attrs));
                     console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // uid from attrs
+                    mail.uid = uid;
+                    mail.tags = attrs['flags'];
                     // check cache, set parsed to true, read cache to mail object.
                     // if(await out.cache!.hasCache(uid)) {
                     //     let c = await out.cache!.getCache(uid);
@@ -139,7 +140,7 @@ class ImapFace {
                         await delay(100);
                     }
                     console.log(prefix + 'Finished');
-                    mails.push(new Message(mail.subject, mail.from, mail.html, NodeType.Mail, []))
+                    mails.push(new Message(mail.uid, mail.subject, mail.from, mail.html, NodeType.Mail, mail.tags))
                 });
             });
             f.once('end', async () => {
@@ -168,7 +169,9 @@ export class Message {
     /**
      * constructor
      */
-    public constructor(public readonly subject: string,
+    public constructor(
+        public readonly uid: string,
+        public readonly subject: string,
         public readonly from: string,
         public readonly content: string,
         public readonly type: NodeType,

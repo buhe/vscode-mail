@@ -125,6 +125,7 @@
 		"@types/assert": "^1.5.6",
 		"@types/chai": "^4.3.1",
 		"@types/glob": "^7.2.0",
+		"@types/lodash": "^4.14.182",
 		"@types/mailparser": "^3.4.0",
 		"@types/markdown-it": "^12.2.3",
 		"@types/mocha": "^9.0.0",
@@ -149,10 +150,12 @@
 	"dependencies": {
 		"@types/nodemailer": "^6.4.4",
 		"bluebird": "^3.7.2",
+		"lodash": "^4.17.21",
 		"mailparser": "^3.5.0",
 		"markdown-it": "^13.0.1",
 		"node-fetch": "2",
 		"node-imap": "github:buhe/node-imap",
+		"node-json-db": "^2.1.0",
 		"nodemailer": "^6.7.7",
 		"util": "^0.12.4",
 		"xoauth2": "^1.2.0"
