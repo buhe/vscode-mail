@@ -58,7 +58,7 @@ export class MailBox extends vscode.TreeItem {
 export class Mail extends vscode.TreeItem {
 
     constructor(
-        public readonly uid: string,
+        public readonly uid: number,
         public readonly label: string,
         public readonly from: string,
         public readonly tags: string[],
@@ -66,7 +66,6 @@ export class Mail extends vscode.TreeItem {
         public readonly type: NodeType,
         public readonly config: any,
         public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-        public readonly command?: vscode.Command,
     ) {
         super(label, collapsibleState);
 
@@ -129,13 +128,17 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                     let key = [display, mailBox].join('/');
                     await this.db.push(key, [], false);
                     let mailNodes: Mail[] = await this.db.getData(key);
+                    // vscode.window.showInformationMessage('this.init[display]' + this.init[display]);
                     if (!this.init[display]) {
                         let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
                         let messages = await imapFace2.openMail(mailBox);
                         let needFire = false;
                         messages.map((msg: Message) => {
-                            if(!hasMail(mailNodes, msg.uid)) {
+                            vscode.window.showInformationMessage('mail changed ');
+                            if(!mailChange(mailNodes, msg.uid, msg.tags)) {
+                                console.log('mail changed %s.', JSON.stringify(msg.tags));
                                 let mail = new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
+                                delete mail['command'];
                                 out.db.push(key + '[]', mail, true);
                                 needFire = true;
                             }
@@ -146,11 +149,6 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                         
                         this.init[display] = true;
                     }
-                    // let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
-                    // let messages = await imapFace2.openMail(element.tooltip as string);
-                    // let mailNodes = messages.map((msg: Message) => {
-                    //     return new Mail(msg.subject, msg.from, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
-                    // });
                     return Promise.resolve(mailNodes);
                 default:
                     return Promise.resolve([]);
@@ -196,8 +194,8 @@ export function openContent(subject: string, content: string) {
     panel.webview.html = content;
 }
 
-function hasMail(mailNodes: Mail[], uid: string): boolean {
-    return findIndex(mailNodes, function (o: Mail) { return o.uid === uid }) != -1;
+function mailChange(mailNodes: Mail[], uid: number, tags: string[]): boolean {
+    return findIndex(mailNodes, function (o: Mail) { return o.uid == uid && JSON.stringify(o.tags) == JSON.stringify(tags)}) != -1;
 }
 
 

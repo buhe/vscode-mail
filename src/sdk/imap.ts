@@ -9,7 +9,6 @@ function delay(ms: number) {
 const LOAD_MAIL = 10;
 class ImapFace {
     private imap: any;
-    // private cache?: Cache;
     /**
      * constructor
      */
@@ -60,8 +59,6 @@ class ImapFace {
                 } as any));
                 break;
         }
-
-        // this.cache = new Cache(config[DISPLAY_KEY]);
     }
     /**
      * connect
@@ -102,45 +99,40 @@ class ImapFace {
             let f = out.imap.seq.fetch(start + ':' + box.messages.total, { bodies: ''});
             let mails: Message[] = [];
             f.on('message', function (msg: any, seqno: any) {
-                var prefix = '(#' + seqno + ') ';
+                // var prefix = '(#' + seqno + ') ';
                 let mail: any = {};
                 let uid: number;
+                let tags: string[];
                 let parsed = false;
+                let attr = false;
                 msg.on('body',async function (stream: any, info: any) {
                     // 1
-                    console.log(prefix+ '1 ' + JSON.stringify(info));
+                    // console.log(prefix+ '1 ' + JSON.stringify(info));
                     mail = await simpleParser(stream);
                     mail.from = mail.from['value'][0]['address'];
                     // 3
                     // console.log(prefix + JSON.stringify(mail) + '3 Parsed');
-                    // await out.cache!.setCache(uid, mail.subject, mail.from, mail.html);
                     parsed = true;
                 });
                 msg.once('attributes', async function (attrs: any) {
                     // 2
-                    console.log(prefix + '2 Attributes: %s', JSON.stringify(attrs));
-                    console.log(prefix + '2 uid: %s', attrs['uid']);
+                    
+                    // console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // uid from attrs
-                    mail.uid = uid;
-                    mail.tags = attrs['flags'];
-                    // check cache, set parsed to true, read cache to mail object.
-                    // if(await out.cache!.hasCache(uid)) {
-                    //     let c = await out.cache!.getCache(uid);
-                    //     mail.subject = c[0];
-                    //     mail.from = c[1];
-                    //     mail.html = c[2];
-                    //     parsed = true;
-                    // }
+                    tags = attrs['flags'];
+                    attr = true;
                     // TODO read/write flags.
                 });
                 msg.once('end', async function () {
                     // mail maybe begin parse, but not full parsed. Attributes must parsed.
                     // so, we need to wait mail parsed or hit cache.
-                    while(!parsed) {
+                    while(!parsed || !attr) {
                         await delay(100);
                     }
-                    console.log(prefix + 'Finished');
-                    mails.push(new Message(mail.uid, mail.subject, mail.from, mail.html, NodeType.Mail, mail.tags))
+                    // console.log(prefix + 'Finished');
+                    // console.log('uid ' + JSON.stringify(uid));
+                    // console.log('tags ' + JSON.stringify(tags));
+                    mails.push(new Message(uid, mail.subject, mail.from, mail.html, NodeType.Mail, tags))
                 });
             });
             f.once('end', async () => {
@@ -170,7 +162,7 @@ export class Message {
      * constructor
      */
     public constructor(
-        public readonly uid: string,
+        public readonly uid: number,
         public readonly subject: string,
         public readonly from: string,
         public readonly content: string,
