@@ -29,7 +29,7 @@ A Mail client embedded in Visual Studio Code
     - [x] list mail only by local file.
 - [ ] publish this extension.
 - [x] read tags.
-- [ ] write tags.
+- [x] write tags.
 - [ ] event: new mail.
 - [x] package this extension.
 - [x] open mail via click.
