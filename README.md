@@ -28,7 +28,7 @@ A Mail client embedded in Visual Studio Code
     - [x] read newst mail from imap server into loacl file.
     - [x] list mail only by local file.
 - [ ] publish this extension.
-- [ ] read tags.
+- [x] read tags.
 - [ ] write tags.
 - [ ] event: new mail.
 - [x] package this extension.

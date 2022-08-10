@@ -75,13 +75,23 @@ export class Mail extends vscode.TreeItem {
         // if (!abstract.read) {
         //     this.iconPath = new vscode.ThemeIcon('circle-outline');
         // }
+        if (this.mailReaded(this.tags)) {
+            this.iconPath = {
+                light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+                dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
+            };
+        } else {
+            this.iconPath = {
+                light: path.join(__filename, '..', '..', 'images', 'light', 'unread_mail.svg'),
+                dark: path.join(__filename, '..', '..', 'images', 'dark', 'unread_mail.svg')
+            };
+        }
     }
 
-    iconPath = {
-        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
-    };
-
+    mailReaded(tags: string[]): boolean {
+        console.log(tags);
+        return findIndex(tags, function (o: string) { return o == '\\Seen' }) != -1;
+    }
     contextValue = 'mail';
 }
 
@@ -133,13 +143,18 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                         let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
                         let messages = await imapFace2.openMail(mailBox);
                         let needFire = false;
-                        messages.map((msg: Message) => {
+                        messages.map(async (msg: Message) => {
                             vscode.window.showInformationMessage('mail changed ');
-                            if(!mailChange(mailNodes, msg.uid, msg.tags)) {
-                                console.log('mail changed %s.', JSON.stringify(msg.tags));
+                            let mailIndex = mailChange(mailNodes,msg.uid,msg.tags);
+                            if(mailIndex == -1) {
                                 let mail = new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
-                                delete mail['command'];
-                                out.db.push(key + '[]', mail, true);
+                                // remove old at cacha
+                                let i = findIndex(mailNodes, function (o: Mail) { return o.uid == msg.uid});
+                                if(i != -1){
+                                    out.db.delete(key + '[' + i + ']');
+                                }
+                                
+                                await out.db.push(key + '[]', mail);
                                 needFire = true;
                             }
                         });
@@ -194,8 +209,8 @@ export function openContent(subject: string, content: string) {
     panel.webview.html = content;
 }
 
-function mailChange(mailNodes: Mail[], uid: number, tags: string[]): boolean {
-    return findIndex(mailNodes, function (o: Mail) { return o.uid == uid && JSON.stringify(o.tags) == JSON.stringify(tags)}) != -1;
+function mailChange(mailNodes: Mail[], uid: number, tags: string[]): number {
+    return findIndex(mailNodes, function (o: Mail) { return o.uid == uid && JSON.stringify(o.tags) == JSON.stringify(tags)}) ;
 }
 
 
