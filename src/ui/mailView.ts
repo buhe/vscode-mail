@@ -75,7 +75,7 @@ export class Mail extends vscode.TreeItem {
         // if (!abstract.read) {
         //     this.iconPath = new vscode.ThemeIcon('circle-outline');
         // }
-        if (this.mailReaded(this.tags)) {
+        if (this.isMailReaded(this.tags)) {
             this.iconPath = {
                 light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
                 dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
@@ -88,9 +88,15 @@ export class Mail extends vscode.TreeItem {
         }
     }
 
-    mailReaded(tags: string[]): boolean {
-        console.log(tags);
+    isMailReaded(tags: string[]): boolean {
         return findIndex(tags, function (o: string) { return o == '\\Seen' }) != -1;
+    }
+
+    mailRead() {
+        this.iconPath = {
+            light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+            dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
+        };
     }
     contextValue = 'mail';
 }
@@ -105,9 +111,12 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     constructor(private context: vscode.ExtensionContext) {
         let vendor_cache_dir = [require('os').homedir(), MailProvider.CACHE_DIR].join(path.sep);
         fs.mkdir(vendor_cache_dir, { recursive: true });
-        this.db = new JsonDB(new Config("/Users/guyanhua/.vsc-mail/mail", true, false, '/'));
+        this.db = new JsonDB(new Config(path.join(vendor_cache_dir, "mail"), true, false, '/'));
     }
 
+    fire(item: vscode.TreeItem) {
+        this._onDidChangeTreeData.fire(item);
+    }
     refresh(): void {
         this._onDidChangeTreeData.fire(undefined);
     }
@@ -118,7 +127,6 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
 
     async getChildren(element?: Mail): Promise<vscode.TreeItem[]> {
         let out = this;
-        // vscode.window.showInformationMessage('load tree from vsc-mail!');
         if (element) {
             switch (element.type) {
                 case NodeType.Vendor:
