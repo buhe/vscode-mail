@@ -145,6 +145,13 @@ class ImapFace {
         });
     }
 
+    /**
+     * updateTags
+     */
+    public async updateTags(uid: number) {
+        await this.imap.addFlagsAsync(uid, 'SEEN');
+    }
+
 }
 
 // let imap = new ImapFace();

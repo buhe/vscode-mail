@@ -71,10 +71,7 @@ export class Mail extends vscode.TreeItem {
 
         this.tooltip = this.label;
         this.description = '';
-        this.command = { command: 'vsc-mail.openContent', title: 'open', arguments: [label, content] };
-        // if (!abstract.read) {
-        //     this.iconPath = new vscode.ThemeIcon('circle-outline');
-        // }
+        this.command = { command: 'vsc-mail.openContent', title: 'open', arguments: [uid, label, content, config, tags] };
         if (this.isMailReaded(this.tags)) {
             this.iconPath = {
                 light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
@@ -92,12 +89,6 @@ export class Mail extends vscode.TreeItem {
         return findIndex(tags, function (o: string) { return o == '\\Seen' }) != -1;
     }
 
-    mailRead() {
-        this.iconPath = {
-            light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
-            dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
-        };
-    }
     contextValue = 'mail';
 }
 
@@ -107,7 +98,6 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
     private db: JsonDB;
     private static CACHE_DIR = '.vsc-mail';
-    private init: any = {};
     constructor(private context: vscode.ExtensionContext) {
         let vendor_cache_dir = [require('os').homedir(), MailProvider.CACHE_DIR].join(path.sep);
         fs.mkdir(vendor_cache_dir, { recursive: true });
@@ -145,33 +135,25 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                     let mailBox = element.tooltip as string;
                     let key = [display, mailBox].join('/');
                     await this.db.push(key, [], false);
-                    let mailNodes: Mail[] = await this.db.getData(key);
-                    // vscode.window.showInformationMessage('this.init[display]' + this.init[display]);
-                    if (!this.init[display]) {
-                        let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
-                        let messages = await imapFace2.openMail(mailBox);
-                        let needFire = false;
-                        messages.map(async (msg: Message) => {
-                            vscode.window.showInformationMessage('mail changed ');
-                            let mailIndex = mailChange(mailNodes,msg.uid,msg.tags);
-                            if(mailIndex == -1) {
-                                let mail = new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
-                                // remove old at cacha
-                                let i = findIndex(mailNodes, function (o: Mail) { return o.uid == msg.uid});
-                                if(i != -1){
-                                    out.db.delete(key + '[' + i + ']');
-                                }
-                                
-                                await out.db.push(key + '[]', mail);
-                                needFire = true;
+                    let msgs: Message[] = await this.db.getData(key);
+                    let mailNodes: Mail[] = msgs.map((msg: Message) => {
+                        return new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
+                    });
+                    let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
+                    let messages = await imapFace2.openMail(mailBox);
+                    messages.map((msg: Message) => {
+                        let mailIndex = mailChange(mailNodes,msg.uid,msg.tags);
+                        if(mailIndex == -1) {
+                            let mail = new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
+                            // remove old at cache
+                            let i = findIndex(mailNodes, function (o: Mail) { return o.uid == msg.uid});
+                            if(i != -1){
+                                out.db.delete(key + '[' + i + ']');
                             }
-                        });
-                        if (needFire) {
-                            this._onDidChangeTreeData.fire(element);
+                            out.db.push(key + '[]', msg);
+                            mailNodes.push(mail);
                         }
-                        
-                        this.init[display] = true;
-                    }
+                    });
                     return Promise.resolve(mailNodes);
                 default:
                     return Promise.resolve([]);

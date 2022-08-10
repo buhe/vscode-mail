@@ -6,6 +6,8 @@ import { Net126 } from './strategy/Net126';
 import { deleteVendor, Mail, MailProvider, openContent, reply, Vendor } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 import { Gmail } from './strategy/Gmail';
+import { getImapInstance } from './sdk/holder';
+import { DISPLAY_KEY } from './strategy';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -20,8 +22,11 @@ export async function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	vscode.commands.registerCommand('vsc-mail.openContent', (subject: string, content: string) => {
+	vscode.commands.registerCommand('vsc-mail.openContent', (uid: number, subject: string, content: string, config: any, tags: string[]) => {
 		openContent(subject, content);
+		getImapInstance(config[DISPLAY_KEY]).updateTags(uid);
+		tags.push('\\Seen');
+		mailProvider.refresh();
 	});
 	vscode.commands.registerCommand('vsc-mail.reply', async (mail: Mail) => {
 		let document = await vscode.workspace.openTextDocument({language: 'markdown'});
@@ -45,9 +50,6 @@ export async function activate(context: vscode.ExtensionContext) {
 			} catch(e: any) {
 
 			}
-
-			// DO SOMETHING WITH `documentText`
-			// vscode.window.showInformationMessage(documentText);
 		}
 	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
