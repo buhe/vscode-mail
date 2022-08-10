@@ -149,6 +149,7 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                             let i = findIndex(mailNodes, function (o: Mail) { return o.uid == msg.uid});
                             if(i != -1){
                                 out.db.delete(key + '[' + i + ']');
+                                mailNodes.splice(i, 1);
                             }
                             out.db.push(key + '[]', msg);
                             mailNodes.push(mail);
