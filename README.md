@@ -11,6 +11,10 @@ A Mail client embedded in Visual Studio Code
 - 126.com vendor test pass.
 - Support relay mail via MarkDown.
 
+## Usage
+
+[Youtube video(no audio)](https://youtu.be/NZ1jK-qZUIA)
+
 ## Known Issues
 
 ## Tasks
