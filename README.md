@@ -33,7 +33,7 @@ A Mail client embedded in Visual Studio Code
 - [x] send markdown.
 - [x] refresh tree after added mail vendor.
 - [x] support delete mail vendor.
-- [ ] sort by date.
+- [x] sort by date.
 
 ## Enhancement
 
