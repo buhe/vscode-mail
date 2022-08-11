@@ -1,8 +1,8 @@
 {
-	"name": "vsc-mail",
-	"displayName": "vsc-mail",
-	"description": "VS Code mail client.",
-	"version": "0.0.1",
+	"name": "vscode-mail",
+	"displayName": "VSCode Mail",
+	"description": "A Mail client embedded in Visual Studio Code.",
+	"version": "0.1.0",
 	"license": "GPL-3.0",
 	"engines": {
 		"vscode": "^1.69.0"
