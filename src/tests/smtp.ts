@@ -4,8 +4,8 @@
 // describe('smtp 126', () => {
 //     it('connect smtp', async () => {
 //         let smtp = new SmtpFace({
-//             [USER_KEY]: 'bugu1986@126.com',
-//             [PASS_KEY]: 'UMXTDSXKNLBRSSOB',
+//             [USER_KEY]: 'xxx126.com',
+//             [PASS_KEY]: 'xxx',
 //             [SMTP_SERVER_KEY]: 'smtp.126.com',
 //             [SMTP_PORT_KEY]: 994,
 //             [VENDOR_KEY]: V_126,

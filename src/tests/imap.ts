@@ -9,8 +9,8 @@
 //         await imapFace.init({
 //             [IMAP_SERVER_KEY]: 'imap.126.com',
 //             [IMAP_PORT_KEY]: 993,
-//             [USER_KEY]: 'bugu1986@126.com',
-//             [PASS_KEY]: 'UMXTDSXKNLBRSSOB',
+//             [USER_KEY]: 'xxx@126.com',
+//             [PASS_KEY]: 'xxx',
 //             [DISPLAY_KEY]: 'my126',
 //             [VENDOR_KEY]: V_126,
 //         });
