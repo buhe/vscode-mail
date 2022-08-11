@@ -103,6 +103,7 @@ class ImapFace {
                 let mail: any = {};
                 let uid: number;
                 let tags: string[];
+                let date: Date;
                 let parsed = false;
                 let attr = false;
                 msg.on('body',async function (stream: any, info: any) {
@@ -120,8 +121,8 @@ class ImapFace {
                     // console.log(prefix + '2 uid: %s', attrs['uid']);
                     uid = attrs['uid']; // uid from attrs
                     tags = attrs['flags'];
+                    date = attrs['date'];
                     attr = true;
-                    // TODO read/write flags.
                 });
                 msg.once('end', async function () {
                     // mail maybe begin parse, but not full parsed. Attributes must parsed.
@@ -132,7 +133,7 @@ class ImapFace {
                     // console.log(prefix + 'Finished');
                     // console.log('uid ' + JSON.stringify(uid));
                     // console.log('tags ' + JSON.stringify(tags));
-                    mails.push(new Message(uid, mail.subject, mail.from, mail.html, NodeType.Mail, tags))
+                    mails.push(new Message(uid, mail.subject, mail.from, mail.html, date, NodeType.Mail, tags))
                 });
             });
             f.once('end', async () => {
@@ -173,6 +174,7 @@ export class Message {
         public readonly subject: string,
         public readonly from: string,
         public readonly content: string,
+        public readonly date: Date,
         public readonly type: NodeType,
         public readonly tags: string[]) { 
     }

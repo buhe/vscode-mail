@@ -64,6 +64,7 @@ export class Mail extends vscode.TreeItem {
         public readonly from: string,
         public readonly tags: string[],
         public readonly content: string,
+        public readonly date: Date,
         public readonly type: NodeType,
         public readonly config: any,
         public readonly collapsibleState: vscode.TreeItemCollapsibleState,
@@ -152,14 +153,14 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                     await this.db.push(key, [], false);
                     let msgs: Message[] = await this.db.getData(key);
                     let mailNodes: Mail[] = msgs.map((msg: Message) => {
-                        return new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
+                        return new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, msg.date, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
                     });
                     let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
                     let messages = await imapFace2.openMail(mailBox);
                     messages.map((msg: Message) => {
                         let mailIndex = mailChange(mailNodes,msg.uid,msg.tags);
                         if(mailIndex == -1) {
-                            let mail = new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
+                            let mail = new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, msg.date, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
                             // remove old at cache
                             let i = findIndex(mailNodes, function (o: Mail) { return o.uid == msg.uid});
                             if(i != -1){
@@ -171,6 +172,7 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                         }
                     });
                     this.mailMap.set(element.config[DISPLAY_KEY], mailNodes);
+                    mailNodes = sortByDate(mailNodes);
                     return Promise.resolve(mailNodes);
                 default:
                     return Promise.resolve([]);
@@ -220,4 +222,10 @@ function mailChange(mailNodes: Mail[], uid: number, tags: string[]): number {
     return findIndex(mailNodes, function (o: Mail) { return o.uid == uid && JSON.stringify(o.tags) == JSON.stringify(tags)}) ;
 }
 
+
+function sortByDate(mailNodes: Mail[]): Mail[] {
+    return mailNodes.sort((a: Mail,b: Mail) => {
+        return b.date.getTime() - a.date.getTime();
+    });
+}
 
