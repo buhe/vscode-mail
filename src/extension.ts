@@ -7,7 +7,8 @@ import { deleteVendor, Mail, MailProvider, openContent, reply, Vendor } from './
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 import { Gmail } from './strategy/Gmail';
 import { getImapInstance } from './sdk/holder';
-import { DISPLAY_KEY } from './strategy';
+import { DISPLAY_KEY, V_126, V_GMAIL, V_OTHER } from './strategy';
+import { Other } from './strategy/Other';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -60,6 +61,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('vsc-mail.setupGmail', () => {
 		Gmail.compile(context, mailProvider);
 	});
+	vscode.commands.registerCommand('vsc-mail.setupOther', () => {
+		Other.compile(context, mailProvider);
+	});
 	vscode.commands.registerCommand('vsc-mail.deleteVendor', (vendor: Vendor) => {
 		deleteVendor(context, mailProvider, vendor.label);
 	});
@@ -74,19 +78,25 @@ export async function activate(context: vscode.ExtensionContext) {
 				placeholder: 'mail vendor',
 				items: [
 					{
-						label: `126`,
+						label: V_126,
 					},
 					{
-						label: `Gmail`,
+						label: V_GMAIL,
+					},
+					{
+						label: V_OTHER,
 					}
 				],
 			});
 			switch (pick.label) {
-				case '126':
+				case V_126:
 					vscode.commands.executeCommand('vsc-mail.setup126');
 					break;
-				case 'Gmail':
+				case V_GMAIL:
 					vscode.commands.executeCommand('vsc-mail.setupGmail');
+					break;
+				case V_OTHER:
+					vscode.commands.executeCommand('vsc-mail.setupOther');
 					break;
 			}
 
