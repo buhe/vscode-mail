@@ -4,13 +4,24 @@
 	"description": "A Mail client embedded in Visual Studio Code.",
 	"version": "0.1.0",
 	"license": "GPL-3.0",
+	"icon": "logo.png",
+	"publisher": "buhe",
+	"author": "buhe",
 	"engines": {
 		"vscode": "^1.69.0"
 	},
 	"categories": [
 		"Other"
 	],
-	"repository": "https://github.com/buhe/vscode-mail",
+	"keywords": [
+		"mail",
+		"gmail",
+		"email"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/buhe/vscode-mail"
+	},
 	"activationEvents": [
 		"onCommand:vsc-mail.setupMail",
 		"onView:mail"
