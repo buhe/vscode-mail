@@ -10,7 +10,7 @@
 	"categories": [
 		"Other"
 	],
-	"repository": "https://github.com/buhe/vsc-mail",
+	"repository": "https://github.com/buhe/vscode-mail",
 	"activationEvents": [
 		"onCommand:vsc-mail.setupMail",
 		"onView:mail"
