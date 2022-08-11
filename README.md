@@ -22,7 +22,7 @@ A Mail client embedded in Visual Studio Code
 - [x] cache mail by file.
 - [x] send mail by smtp.
 - [x] support gmail.
-- [ ] support other mail vendor.
+- [x] support other mail vendor.
 - [x] configuration metadata by gui.
 - [x] list mail by local file.
     - [x] read newst mail from imap server into loacl file.
