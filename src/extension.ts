@@ -91,8 +91,6 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 
 		});
-		mailProvider.refresh();
-		
 	});
 
 	context.subscriptions.push(disposable);
