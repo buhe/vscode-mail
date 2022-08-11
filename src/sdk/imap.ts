@@ -1,5 +1,5 @@
 import * as Imap from 'node-imap';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from '../strategy';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER } from '../strategy';
 import { getToken } from './gmail/token';
 const bluebird = require('bluebird');
 const simpleParser = require('mailparser').simpleParser;
@@ -42,6 +42,24 @@ class ImapFace {
                 break;
 
             case V_126:
+                this.imap = bluebird.promisifyAll(new Imap({
+                    user: config[USER_KEY],
+                    password: config[PASS_KEY],
+                    host: config[IMAP_SERVER_KEY],
+                    port: config[IMAP_PORT_KEY],
+                    tls: true,
+                    tlsOptions: { servername: config[IMAP_SERVER_KEY] },
+                    // debug: console.log,
+                    id: {
+                        name: 'vsc-mail',
+                        version: '1.0.0',
+                        vendor: "buhe",
+                        "support-email": config[USER_KEY],
+                    },
+                } as any));
+                break;
+            case V_OTHER:
+                console.log('other mail vendor imap.');
                 this.imap = bluebird.promisifyAll(new Imap({
                     user: config[USER_KEY],
                     password: config[PASS_KEY],
