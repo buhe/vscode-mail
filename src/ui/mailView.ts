@@ -7,6 +7,7 @@ import { Config } from 'node-json-db/dist/lib/JsonDBConfig';
 import {Message, NodeType} from '../sdk/imap';
 import { createImapInstance, createSmtpInstance, getImapInstance, getSmtpInstance } from '../sdk/holder';
 import { DISPLAY_KEY, MAIL_KEY } from '../strategy';
+import _ = require('lodash');
 
 export class Vendor extends vscode.TreeItem {
 
@@ -89,6 +90,13 @@ export class Mail extends vscode.TreeItem {
         return findIndex(tags, function (o: string) { return o == '\\Seen' }) != -1;
     }
 
+    read() {
+        this.iconPath = {
+            light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+            dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
+        };
+    }
+
     contextValue = 'mail';
 }
 
@@ -98,13 +106,20 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
     private db: JsonDB;
     private static CACHE_DIR = '.vsc-mail';
+    private mailMap: Map<string,Mail[]> = new Map();
     constructor(private context: vscode.ExtensionContext) {
         let vendor_cache_dir = [require('os').homedir(), MailProvider.CACHE_DIR].join(path.sep);
         fs.mkdir(vendor_cache_dir, { recursive: true });
         this.db = new JsonDB(new Config(path.join(vendor_cache_dir, "mail"), true, false, '/'));
     }
 
-    fire(item: vscode.TreeItem) {
+    findNode(display:string,uid:number): Mail | undefined {
+        return _.find(this.mailMap.get(display), (m: Mail) => {
+            return m.uid == uid;
+        })
+    }
+
+    fire(item: vscode.TreeItem | undefined) {
         this._onDidChangeTreeData.fire(item);
     }
     refresh(): void {
@@ -155,6 +170,7 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                             mailNodes.push(mail);
                         }
                     });
+                    this.mailMap.set(element.config[DISPLAY_KEY], mailNodes);
                     return Promise.resolve(mailNodes);
                 default:
                     return Promise.resolve([]);

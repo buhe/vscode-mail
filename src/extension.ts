@@ -23,10 +23,12 @@ export async function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	vscode.commands.registerCommand('vsc-mail.openContent', (uid: number, subject: string, content: string, config: any, tags: string[]) => {
+		let node = mailProvider.findNode(config[DISPLAY_KEY], uid);
+		// console.log('node: %s', JSON.stringify(node));
 		openContent(subject, content);
 		getImapInstance(config[DISPLAY_KEY]).updateTags(uid);
-		tags.push('\\Seen');
-		mailProvider.refresh();
+		node?.read();
+		mailProvider.fire(node);
 	});
 	vscode.commands.registerCommand('vsc-mail.reply', async (mail: Mail) => {
 		let document = await vscode.workspace.openTextDocument({language: 'markdown'});
