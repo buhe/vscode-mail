@@ -49,8 +49,8 @@ export class MailBox extends vscode.TreeItem {
     }
 
     iconPath = {
-        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'folder.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'folder.svg')
     };
 
 }
