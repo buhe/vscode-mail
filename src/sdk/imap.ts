@@ -8,7 +8,8 @@ const simpleParser = require('mailparser').simpleParser;
 function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 } 
-const LOAD_MAIL = 10;
+const FIRST_LOAD_MAIL = 50;
+const LOAD_MAIL = 5;
 class ImapFace {
     private imap: any;
     /**
@@ -118,9 +119,9 @@ class ImapFace {
     /**
      * openMail
      */
-    public async openMail(boxName: string): Promise<Message[]> {
+    public async openMail(boxName: string, firstLoad: boolean): Promise<Message[]> {
         let box = await this.imap.openBoxAsync(boxName, false);
-        let start = box.messages.total + 1 - LOAD_MAIL;
+        let start = firstLoad ? box.messages.total + 1 - FIRST_LOAD_MAIL : box.messages.total + 1 - LOAD_MAIL;
         if(start < 0){
             start = 1;
         }

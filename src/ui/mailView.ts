@@ -157,8 +157,9 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                     let mailNodes: Mail[] = msgs.map((msg: Message) => {
                         return new Mail(msg.uid, msg.subject, msg.from, msg.tags, msg.content, msg.date, NodeType.Mail, element.config, vscode.TreeItemCollapsibleState.None);
                     });
+                    let firstLoad = msgs.length == 0;
                     let imapFace2 = getImapInstance(element.config[DISPLAY_KEY]);
-                    let messages = await imapFace2.openMail(mailBox);
+                    let messages = await imapFace2.openMail(mailBox, firstLoad);
                     messages.map((msg: Message) => {
                         let mailIndex = mailChange(mailNodes,msg.uid,msg.tags);
                         if(mailIndex == -1) {
