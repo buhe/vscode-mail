@@ -1,5 +1,6 @@
 import * as Imap from 'node-imap';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER } from '../strategy';
+import { MailBox, MailProvider } from '../ui/mailView';
 import { getToken } from './gmail/token';
 const bluebird = require('bluebird');
 const simpleParser = require('mailparser').simpleParser;
@@ -81,12 +82,22 @@ class ImapFace {
     /**
      * connect
      */
-    public async connect(): Promise<any> {
+    public async connect(mailProvider: MailProvider, mailBoxMap: Map<string, MailBox[]>, display: string): Promise<any> {
         let out = this;
         return new Promise((resolve,reject) => {
             
             out.imap.once('ready', function () {
                 resolve(out.imap);
+            });
+
+            out.imap.on('mail', (count: number) => {
+                console.log('recv (' + count + ') mail');
+                let boxes = mailBoxMap.get(display);
+                if(boxes) {
+                    boxes.forEach((value: MailBox) => {
+                        mailProvider.fire(value);
+                    });
+                }
             });
 
             out.imap.once('error', function (err: any) {

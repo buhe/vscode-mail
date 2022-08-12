@@ -108,6 +108,7 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     private db: JsonDB;
     private static CACHE_DIR = '.vsc-mail';
     private mailMap: Map<string,Mail[]> = new Map();
+    private mailBoxMap: Map<string,MailBox[]> = new Map();
     constructor(private context: vscode.ExtensionContext) {
         let vendor_cache_dir = [require('os').homedir(), MailProvider.CACHE_DIR].join(path.sep);
         fs.mkdir(vendor_cache_dir, { recursive: true });
@@ -139,12 +140,13 @@ export class MailProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
                     await createImapInstance(element.config);
                     await createSmtpInstance(element.config);
                     let imapFace = getImapInstance(element.config[DISPLAY_KEY]);
-                    let imap = await imapFace.connect();
+                    let imap = await imapFace.connect(this, this.mailBoxMap, element.config[DISPLAY_KEY]);
                     let boxes = await imap.getBoxesAsync();
                     let boxNodes: MailBox[] = [];
                     for (const key in boxes) {
                         boxNodes.push(new MailBox(key ,NodeType.Box, element.config, vscode.TreeItemCollapsibleState.Collapsed));
                     }
+                    this.mailBoxMap.set(element.config[DISPLAY_KEY], boxNodes);
                     return Promise.resolve(boxNodes);
                 case NodeType.Box:
                     let display = '/' + element.config[DISPLAY_KEY];
