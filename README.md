@@ -43,6 +43,7 @@ A Mail client embedded in Visual Studio Code
 - [x] support delete mail vendor.
 - [x] sort by date.
 - [x] fix: add gmail refresh tree.
+- [ ] gmail oauth.
 
 ## Enhancement
 
