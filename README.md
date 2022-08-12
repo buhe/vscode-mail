@@ -52,6 +52,8 @@ A Mail client embedded in Visual Studio Code
 - [ ] send new mail,not only reply.
 - [ ] refresh tree.
 - [ ] show detail error when imap connect failed.
+- [ ] optimization send button position.
+- [ ] receive mail when reactive.
 
 ## Privacy Policy
 
