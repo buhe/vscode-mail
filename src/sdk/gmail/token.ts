@@ -6,6 +6,7 @@ var xoauth2 = require("xoauth2");
 const http = require("http"); 
 const url = require('url');
 import fetch from 'node-fetch';         
+import { MailProvider } from "../../ui/mailView";
 const host = 'localhost';
 const port = 3000;
 
@@ -24,7 +25,7 @@ export async function getToken(user: string, refresh_token: string) {
     return await xoauth2gen.getTokenAsync();
 }
 
-export async function saveMeta(display: string, user: string, context: any) {
+export async function saveMeta(display: string, user: string, context: any, mailProvider: MailProvider) {
     let geted = false;
     const requestListener = async function (req: any, res: any) {
         if (geted){
@@ -95,7 +96,7 @@ code=4%2F0AdQt8qit1Qkn2olvMsIRORcmvYe7u4lbFLVXdbrKXOwnRyUvwZiOyuuh-Lqnq6xJs3exHA
         // let oauth2 = await getToken(user, );
         console.log('get token.');
         // vscode.window.showInformationMessage('get token.');
-        _saveMeta(display, user, data['refresh_token'], context)
+        _saveMeta(display, user, data['refresh_token'], context, mailProvider);
         res.writeHead(200);
         res.end();
         server.close(function () { console.log('Server closed!'); });
@@ -107,7 +108,7 @@ code=4%2F0AdQt8qit1Qkn2olvMsIRORcmvYe7u4lbFLVXdbrKXOwnRyUvwZiOyuuh-Lqnq6xJs3exHA
     });
 }
 
-function _saveMeta(display: string, user: string, token: string, context: any) {
+function _saveMeta(display: string, user: string, token: string, context: any, mailProvider: MailProvider) {
     try {
         let data: any = {};
         data[VENDOR_KEY] = V_GMAIL;
@@ -123,6 +124,7 @@ function _saveMeta(display: string, user: string, token: string, context: any) {
         let n = { [data.display]: data };
         let merge = { ...n, ...old };
         context.globalState.update(MAIL_KEY, merge);
+        mailProvider.refresh();
     } catch(e){
         // for unit test
         console.log('!!!%s %s %s', display, user, token);
