@@ -2,7 +2,7 @@
 	"name": "vscode-mail",
 	"displayName": "VSCode Mail",
 	"description": "A Mail client embedded in Visual Studio Code.",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"license": "GPL-3.0",
 	"icon": "logo.png",
 	"publisher": "buhe",
