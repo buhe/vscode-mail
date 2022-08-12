@@ -65,5 +65,9 @@ A Mail client embedded in Visual Studio Code
 
 Initial release of vscode mail.
 
+### 0.2.0
+
+- fix: add gmail refresh tree.
+
 -----------------------------------------------------------------------------------------------------------
 **Enjoy!**
