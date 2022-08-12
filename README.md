@@ -34,7 +34,6 @@ A Mail client embedded in Visual Studio Code
 - [x] event: new mail.
 - [x] package this extension.
 - [x] open mail via click.
-- [ ] Notification API.
 - [x] send markdown.
 - [x] refresh tree after added mail vendor.
 - [x] support delete mail vendor.

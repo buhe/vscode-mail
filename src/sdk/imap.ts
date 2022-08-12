@@ -1,4 +1,5 @@
 import * as Imap from 'node-imap';
+import * as vscode from 'vscode';
 import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER } from '../strategy';
 import { MailBox, MailProvider } from '../ui/mailView';
 import { getToken } from './gmail/token';
@@ -91,7 +92,8 @@ class ImapFace {
             });
 
             out.imap.on('mail', (count: number) => {
-                console.log('recv (' + count + ') mail');
+                console.log('receive (' + count + ') mail');
+                vscode.window.showInformationMessage('receive (' + count + ') mail');
                 let boxes = mailBoxMap.get(display);
                 if(boxes) {
                     boxes.forEach((value: MailBox) => {
