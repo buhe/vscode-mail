@@ -2,6 +2,9 @@
 
 A Mail client embedded in Visual Studio Code
 
+[![version](https://vsmarketplacebadge.apphb.com/version-short/buhe.vscode-mail.svg)](https://marketplace.visualstudio.com/items?itemName=buhe.vscode-mail)
+[![rating](https://vsmarketplacebadge.apphb.com/rating-short/buhe.vscode-mail.svg)](https://marketplace.visualstudio.com/items?itemName=buhe.vscode-mail)
+
 ## Features
 
 ![Feature](https://tva1.sinaimg.cn/large/e6c9d24egy1h52o0l5nb3j21ev0u0grn.jpg)
