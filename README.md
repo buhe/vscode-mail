@@ -46,6 +46,7 @@ A Mail client embedded in Visual Studio Code
 - [ ] confime before delete vendor.
 - [ ] send new mail,not only reply.
 - [ ] refresh tree.
+- [ ] show detail error when imap connect failed.
 
 ## Privacy Policy
 
