@@ -87,14 +87,18 @@ class ImapFace {
     public async connect(mailProvider: MailProvider, mailBoxMap: Map<string, MailBox[]>, display: string): Promise<any> {
         let out = this;
         return new Promise((resolve,reject) => {
-            
+            let first = true;
             out.imap.once('ready', function () {
                 resolve(out.imap);
             });
 
             out.imap.on('mail', (count: number) => {
                 console.log('receive (' + count + ') mail');
-                vscode.window.showInformationMessage('receive (' + count + ') mail');
+                if(first) {
+                    first = false;
+                    return;
+                }
+                vscode.window.showInformationMessage('Receive new (' + count + ') mail');
                 let boxes = mailBoxMap.get(display);
                 if(boxes) {
                     boxes.forEach((value: MailBox) => {
