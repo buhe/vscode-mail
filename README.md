@@ -38,7 +38,7 @@ A Mail client embedded in Visual Studio Code
 - [x] refresh tree after added mail vendor.
 - [x] support delete mail vendor.
 - [x] sort by date.
-- [ ] fix: add gmail refresh tree.
+- [x] fix: add gmail refresh tree.
 
 ## Enhancement
 
