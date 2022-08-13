@@ -72,5 +72,9 @@ Initial release of vscode mail.
 
 - fix: add gmail refresh tree.
 
+### 0.3.0
+
+- Support sina mail vendor.
+
 -----------------------------------------------------------------------------------------------------------
 **Enjoy!**

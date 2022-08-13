@@ -9,3 +9,7 @@
 ## [0.2.0] - 2022-08-12
 
 - fix: add gmail refresh tree.
+
+## [0.3.0] - 2022-08-13
+
+- Support sina mail vendor.
