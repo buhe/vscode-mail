@@ -6,7 +6,7 @@ import { JsonDB } from 'node-json-db';
 import { Config } from 'node-json-db/dist/lib/JsonDBConfig';
 import {Message, NodeType} from '../sdk/imap';
 import { createImapInstance, createSmtpInstance, getImapInstance, getSmtpInstance } from '../sdk/holder';
-import { DISPLAY_KEY, MAIL_KEY } from '../strategy';
+import { DISPLAY_KEY, iconsMap, MAIL_KEY, VENDOR_KEY } from '../strategy';
 import _ = require('lodash');
 
 export class Vendor extends vscode.TreeItem {
@@ -22,12 +22,15 @@ export class Vendor extends vscode.TreeItem {
 
         this.tooltip = this.label;
         this.description = '';
+        let iconPath = iconsMap[config[VENDOR_KEY]];
+        if (!iconPath) {
+            iconPath = {
+                light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+                dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
+            };
+        }
+        this.iconPath = iconPath;
     }
-
-    iconPath = {
-        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
-    };
 
     contextValue = 'vendor';
 

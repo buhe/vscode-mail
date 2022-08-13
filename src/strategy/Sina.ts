@@ -1,6 +1,6 @@
 import { MultiStepInput } from "../ui/multiStepInput";
 import * as vscode from 'vscode';
-import { IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, VENDOR_KEY, V_126 } from ".";
+import { IMAP_PORT_KEY, IMAP_SERVER_KEY, MAIL_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, VENDOR_KEY, V_126, V_SINA } from ".";
 import { MailProvider } from "../ui/mailView";
 
 export class Sina {
@@ -33,7 +33,7 @@ export class Sina {
                 value: data.pass,
                 prompt: 'Input Sina password, please',
             });
-            data[VENDOR_KEY] = V_126;
+            data[VENDOR_KEY] = V_SINA;
             data[IMAP_SERVER_KEY] = 'imap.sina.com';
             data[IMAP_PORT_KEY] = 993;
             data[SMTP_SERVER_KEY] = 'smtp.sina.com';
