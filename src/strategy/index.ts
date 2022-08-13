@@ -18,15 +18,15 @@ export const V_SINA = "sina";
 
 export const iconsMap: any = {
     [V_126]: {
-        light: path.join(__filename, '..', '..', 'images', 'light', '126.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'dark', '126.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     },
     [V_GMAIL]: {
-        light: path.join(__filename, '..', '..', 'images', 'light', 'gmail.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'dark', 'gmail.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     },
     [V_SINA]: {
-        light: path.join(__filename, '..', '..', 'images', 'light', 'sina.svg'),
-        dark: path.join(__filename, '..', '..', 'images', 'dark', 'sina.svg')
+        light: path.join(__filename, '..', '..', 'images', 'light', 'mail.svg'),
+        dark: path.join(__filename, '..', '..', 'images', 'dark', 'mail.svg')
     }
 }
