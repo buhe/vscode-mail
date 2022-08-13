@@ -56,6 +56,9 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 		}
 	});
+	vscode.commands.registerCommand('vsc-mail.refresh', () => {
+		mailProvider.refresh();
+	});
 	vscode.commands.registerCommand('vsc-mail.setup126', () => {
 		Net126.compile(context, mailProvider);
 	});
