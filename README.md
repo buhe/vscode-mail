@@ -13,6 +13,7 @@ A Mail client embedded in Visual Studio Code
 - Support IMAP and SMTP protocol.
 - Gmail.com vendor test pass.
 - 126.com vendor test pass.
+- sina.com vendor test pass.
 - Can add other mail vendor, but not test.
 - Support relay mail via MarkDown.
 
