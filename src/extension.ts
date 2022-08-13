@@ -7,8 +7,9 @@ import { deleteVendor, Mail, MailProvider, openContent, reply, Vendor } from './
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 import { Gmail } from './strategy/Gmail';
 import { getImapInstance } from './sdk/holder';
-import { DISPLAY_KEY, V_126, V_GMAIL, V_OTHER } from './strategy';
+import { DISPLAY_KEY, V_126, V_GMAIL, V_OTHER, V_SINA } from './strategy';
 import { Other } from './strategy/Other';
+import { Sina } from './strategy/Sina';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -61,6 +62,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('vsc-mail.setupGmail', () => {
 		Gmail.compile(context, mailProvider);
 	});
+	vscode.commands.registerCommand('vsc-mail.setupSina', () => {
+		Sina.compile(context, mailProvider);
+	});
 	vscode.commands.registerCommand('vsc-mail.setupOther', () => {
 		Other.compile(context, mailProvider);
 	});
@@ -84,6 +88,9 @@ export async function activate(context: vscode.ExtensionContext) {
 						label: V_GMAIL,
 					},
 					{
+						label: V_SINA,
+					},
+					{
 						label: V_OTHER,
 					}
 				],
@@ -91,6 +98,9 @@ export async function activate(context: vscode.ExtensionContext) {
 			switch (pick.label) {
 				case V_126:
 					vscode.commands.executeCommand('vsc-mail.setup126');
+					break;
+				case V_SINA:
+					vscode.commands.executeCommand('vsc-mail.setupSina');
 					break;
 				case V_GMAIL:
 					vscode.commands.executeCommand('vsc-mail.setupGmail');

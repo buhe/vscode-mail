@@ -1,6 +1,6 @@
 import * as Imap from 'node-imap';
 import * as vscode from 'vscode';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER } from '../strategy';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER, V_SINA } from '../strategy';
 import { MailBox, MailProvider } from '../ui/mailView';
 import { getToken } from './gmail/token';
 const bluebird = require('bluebird');
@@ -45,6 +45,7 @@ class ImapFace {
                 break;
 
             case V_126:
+            case V_SINA:
                 this.imap = bluebird.promisifyAll(new Imap({
                     user: config[USER_KEY],
                     password: config[PASS_KEY],
