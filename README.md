@@ -67,7 +67,7 @@ A Mail client embedded in Visual Studio Code
 
 ### 0.1.0
 
-Initial release of vscode mail.
+- Initial release of vscode mail.
 
 ### 0.2.0
 
