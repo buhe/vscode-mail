@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import * as MarkdownIt from 'markdown-it';
 import { Net126 } from './strategy/Net126';
-import { deleteVendor, Mail, MailProvider, openContent, reply, Vendor } from './ui/mailView';
+import { deleteVendor, Mail, MailProvider, openContent, reply, sendWithTo, Vendor } from './ui/mailView';
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 import { Gmail } from './strategy/Gmail';
 import { getImapInstance } from './sdk/holder';
@@ -32,7 +32,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		node?.read();
 		mailProvider.fire(node);
 	});
-	vscode.commands.registerCommand('vsc-mail.reply', async (mail: Mail) => {
+	vscode.commands.registerCommand('vsc-mail.reply', async () => {
 		let document = await vscode.workspace.openTextDocument({language: 'markdown'});
 		await vscode.window.showTextDocument(document);
 	});
@@ -49,10 +49,43 @@ export async function activate(context: vscode.ExtensionContext) {
 
 			try {
 				let html = md.render(documentText);
-				vscode.window.showInformationMessage(JSON.stringify(mail));
 				await reply(mail, html);
 			} catch(e: any) {
+				console.error(e);
+			}
+		}
+	});
+	vscode.commands.registerCommand('vsc-mail.sendWithTo', async (vendor: Vendor) => {
+		const editor = vscode.window.activeTextEditor;
 
+		if (editor) {
+			let data: any = {};
+			await MultiStepInput.run(async (input) => {
+				data.to = await input.showInputBox({
+					title: 'To Address',
+					step: 1,
+					totalSteps: 2,
+					value: data.to,
+					prompt: 'Input to address, please',
+				});
+			
+				data.title = await input.showInputBox({
+					title: 'Mail Title',
+					step: 2,
+					totalSteps: 2,
+					value: data.title,
+					prompt: 'Input mail title, please',
+				});
+			});
+			let document = editor.document;
+			const documentText = document.getText();
+			let md = new MarkdownIt();
+
+			try {
+				let html = md.render(documentText);
+				await sendWithTo(data.to, data.title, vendor, html);
+			} catch (e: any) {
+				console.error(e);
 			}
 		}
 	});

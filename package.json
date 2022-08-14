@@ -76,6 +76,14 @@
 					"light": "images/light/send.svg",
 					"dark": "images/dark/send.svg"
 				}
+			},
+			{
+				"command": "vsc-mail.sendWithTo",
+				"title": "sendWithTo",
+				"icon": {
+					"light": "images/light/send.svg",
+					"dark": "images/dark/send.svg"
+				}
 			}
 		],
 		"menus": {
@@ -100,12 +108,17 @@
 			"view/item/context": [
 				{
 					"command": "vsc-mail.reply",
-					"when": "view == mail && viewItem == mail",
+					"when": "viewItem == mail || viewItem == vendor",
 					"group": "inline"
 				},
 				{
 					"command": "vsc-mail.send",
 					"when": "view == mail && viewItem == mail",
+					"group": "inline"
+				},
+				{
+					"command": "vsc-mail.sendWithTo",
+					"when": "view == mail && viewItem == vendor",
 					"group": "inline"
 				},
 				{

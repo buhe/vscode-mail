@@ -212,6 +212,12 @@ export async function reply(mail: Mail, html: string) {
     smtp.close();
 }
 
+export async function sendWithTo(to:string, title:string, vendor: Vendor, html: string) {
+    let smtp = getSmtpInstance(vendor.config[DISPLAY_KEY]);
+    await smtp.send(to, title, html);
+    smtp.close();
+}
+
 export function openContent(subject: string, content: string) {
     const panel = vscode.window.createWebviewPanel(
         subject as string,
