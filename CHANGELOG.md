@@ -13,3 +13,8 @@
 ## [0.3.0] - 2022-08-13
 
 - Support sina mail vendor.
+
+## [0.4.0] - 
+
+- send new mail,not only reply.
+- refresh tree.
