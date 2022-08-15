@@ -105,7 +105,30 @@ export async function activate(context: vscode.ExtensionContext) {
 		Other.compile(context, mailProvider);
 	});
 	vscode.commands.registerCommand('vsc-mail.deleteVendor', (vendor: Vendor) => {
-		deleteVendor(context, mailProvider, vendor.label);
+		MultiStepInput.run(async (input) => {
+			const pick = await input.showQuickPick({
+				title: 'delete mail vendor',
+				step: 1,
+				totalSteps: 1,
+				placeholder: 'confirm?',
+				items: [
+					{
+						label: 'yes',
+					},
+					{
+						label: 'no',
+					}
+				]});
+
+				switch (pick.label) {
+					case 'no':
+						break;
+					case 'yes':
+						deleteVendor(context, mailProvider, vendor.label);
+						break;
+				}
+			});
+		
 	});
 	let disposable = vscode.commands.registerCommand('vsc-mail.setupMail', () => {
 		// The code you place here will be executed every time your command is executed
