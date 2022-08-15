@@ -18,3 +18,4 @@
 
 - send new mail,not only reply.
 - refresh tree.
+- confime before delete vendor.

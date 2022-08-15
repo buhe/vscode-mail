@@ -49,7 +49,7 @@ A Mail client embedded in Visual Studio Code
 ## Enhancement
 
 - [ ] support attachment.
-- [ ] confime before delete vendor.
+- [x] confime before delete vendor.
 - [x] send new mail,not only reply.
 - [x] refresh tree.
 - [ ] show detail error when imap connect failed.
@@ -83,6 +83,7 @@ A Mail client embedded in Visual Studio Code
 
 - send new mail,not only reply.
 - refresh tree.
+- confime before delete vendor.
 
 -----------------------------------------------------------------------------------------------------------
 **Enjoy!**
