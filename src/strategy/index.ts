@@ -15,6 +15,7 @@ export const V_126 = "126";
 export const V_GMAIL = "gmail";
 export const V_OTHER = "other";
 export const V_SINA = "sina";
+export const V_QQ = "qq";
 
 export const iconsMap: any = {
     [V_126]: {
