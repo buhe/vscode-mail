@@ -19,3 +19,4 @@
 - send new mail,not only reply.
 - refresh tree.
 - confime before delete vendor.
+- show detail error when imap connect failed.
