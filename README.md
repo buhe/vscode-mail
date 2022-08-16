@@ -59,7 +59,7 @@ A Mail client embedded in Visual Studio Code
 - [ ] test for qq mail.
 - [ ] support exchange.
 
-## Take about
+## Talk about
 [slack channel](https://join.slack.com/t/vscode-mail/shared_invite/zt-1eal0alv9-l87deKBzgGZl32XQWq7OJg)
 
 ## Privacy Policy
