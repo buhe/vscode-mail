@@ -59,6 +59,9 @@ A Mail client embedded in Visual Studio Code
 - [ ] test for qq mail.
 - [ ] support exchange.
 
+## Take about
+[slack channel](https://join.slack.com/t/vscode-mail/shared_invite/zt-1eal0alv9-l87deKBzgGZl32XQWq7OJg)
+
 ## Privacy Policy
 
 1. We comply with the Act on the Protection of Personal Information and related laws and regulations in World and engage in the appropriate acquisition, use and provision of personal information in accordance with the below disclosed Handling of Personal Information and internal regulations, etc.
