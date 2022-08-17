@@ -56,7 +56,7 @@ A Mail client embedded in Visual Studio Code
 - [ ] optimization send button position.
 - [ ] receive mail when reactive.
 - [ ] different vendor icon.
-- [ ] test for qq mail.
+- [x] test for qq exmail.
 - [ ] support exchange.
 
 ## Talk about
