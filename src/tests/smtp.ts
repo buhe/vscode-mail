@@ -1,5 +1,5 @@
-// import SmtpFace from "../sdk/smtp"
-// import { PASS_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL } from "../strategy";
+import SmtpFace from "../sdk/smtp"
+import { PASS_KEY, SMTP_PORT_KEY, SMTP_SERVER_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_QQ } from "../strategy";
 
 // describe('smtp 126', () => {
 //     it('connect smtp', async () => {
@@ -35,3 +35,16 @@
 //         smtp.close();
 //     })
 // })
+describe('smtp qq', () => {
+    it('connect smtp', async () => {
+        let smtp = new SmtpFace({
+            [USER_KEY]: 'bohe@testexchange.wecom.work',
+            [PASS_KEY]: '2E8BeDJH5EWP7d',
+            [SMTP_SERVER_KEY]: 'smtp.exmail.qq.com',
+            [SMTP_PORT_KEY]: 465,
+            [VENDOR_KEY]: V_QQ,
+        });
+        await smtp.init();
+        await smtp.send('bugu1986@gmail.com', 'Test Email Subject', 'Example Plain Text Message Body');
+    })
+})

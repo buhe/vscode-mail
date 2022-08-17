@@ -1,6 +1,6 @@
 import * as Imap from 'node-imap';
-import * as vscode from 'vscode';
-import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER, V_SINA } from '../strategy';
+// import * as vscode from 'vscode';
+import { DISPLAY_KEY, IMAP_PORT_KEY, IMAP_SERVER_KEY, PASS_KEY, TOKEN_KEY, USER_KEY, VENDOR_KEY, V_126, V_GMAIL, V_OTHER, V_QQ, V_SINA } from '../strategy';
 import { MailBox, MailProvider } from '../ui/mailView';
 import { getToken } from './gmail/token';
 const bluebird = require('bluebird');
@@ -46,6 +46,7 @@ class ImapFace {
 
             case V_126:
             case V_SINA:
+            case V_QQ:
                 this.imap = bluebird.promisifyAll(new Imap({
                     user: config[USER_KEY],
                     password: config[PASS_KEY],
@@ -85,7 +86,7 @@ class ImapFace {
     /**
      * connect
      */
-    public async connect(mailProvider: MailProvider, mailBoxMap: Map<string, MailBox[]>, display: string): Promise<any> {
+    public async connect(mailProvider?: MailProvider, mailBoxMap?: Map<string, MailBox[]>, display?: string): Promise<any> {
         let out = this;
         return new Promise((resolve,reject) => {
             let first = true;
@@ -99,12 +100,14 @@ class ImapFace {
                     first = false;
                     return;
                 }
-                vscode.window.showInformationMessage('Receive new (' + count + ') mail');
-                let boxes = mailBoxMap.get(display);
-                if(boxes) {
-                    boxes.forEach((value: MailBox) => {
-                        mailProvider.fire(value);
-                    });
+                if (display && mailBoxMap && mailProvider) {
+                    // vscode.window.showInformationMessage('Receive new (' + count + ') mail');
+                    let boxes = mailBoxMap.get(display);
+                    if (boxes) {
+                        boxes.forEach((value: MailBox) => {
+                            mailProvider.fire(value);
+                        });
+                    }
                 }
             });
 

@@ -7,9 +7,10 @@ import { deleteVendor, Mail, MailProvider, openContent, reply, sendWithTo, Vendo
 import { MultiStepInput, multiStepInput } from './ui/multiStepInput';
 import { Gmail } from './strategy/Gmail';
 import { getImapInstance } from './sdk/holder';
-import { DISPLAY_KEY, V_126, V_GMAIL, V_OTHER, V_SINA } from './strategy';
+import { DISPLAY_KEY, V_126, V_GMAIL, V_OTHER, V_QQ, V_SINA } from './strategy';
 import { Other } from './strategy/Other';
 import { Sina } from './strategy/Sina';
+import { QQex } from './strategy/QQex';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -101,6 +102,9 @@ export async function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('vsc-mail.setupSina', () => {
 		Sina.compile(context, mailProvider);
 	});
+	vscode.commands.registerCommand('vsc-mail.setupQQ', () => {
+		QQex.compile(context, mailProvider);
+	});
 	vscode.commands.registerCommand('vsc-mail.setupOther', () => {
 		Other.compile(context, mailProvider);
 	});
@@ -150,6 +154,9 @@ export async function activate(context: vscode.ExtensionContext) {
 						label: V_SINA,
 					},
 					{
+						label: V_QQ,
+					},
+					{
 						label: V_OTHER,
 					}
 				],
@@ -163,6 +170,9 @@ export async function activate(context: vscode.ExtensionContext) {
 					break;
 				case V_GMAIL:
 					vscode.commands.executeCommand('vsc-mail.setupGmail');
+					break;
+				case V_QQ:
+					vscode.commands.executeCommand('vsc-mail.setupQQ');
 					break;
 				case V_OTHER:
 					vscode.commands.executeCommand('vsc-mail.setupOther');
