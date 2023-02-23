@@ -28,6 +28,32 @@
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "VSC mail Settings",
+			"properties": {
+				"items": {
+					"type": "array",
+					"title": "Mail providers",
+					"description": "List of Mail providers",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string",
+								"default": "New Item",
+								"description": "Name of the item"
+							},
+							"description": {
+								"type": "string",
+								"default": "",
+								"description": "Description of the item"
+							}
+						}
+					}
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "vsc-mail.setupMail",
